@@ -6,7 +6,7 @@ Frontend desenvolvido com o Angular 19.
 
 ## Protótipo
 
-https://www.figma.com/file/a1VDbO1aNfZyulQPxT99OE/beleza-em-dia?node-id=3%3A80
+https://www.figma.com/design/TTfuNRIKXWxjTd2FUrLujs/favtoon?node-id=0-1&p=f&t=nV2EDCrBb6tm0XVr-0
 
 ## Checklist
 #### RA1 - Prototipar e projetar interfaces gráficas de usuário, considerando princípios de usabilidade e experiência do usuário.
