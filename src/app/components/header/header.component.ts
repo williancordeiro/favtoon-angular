@@ -9,5 +9,6 @@ import { Component } from '@angular/core';
 
 
 export class HeaderComponent {
+[x: string]: any;
 
 }
