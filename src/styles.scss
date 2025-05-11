@@ -1,0 +1,127 @@
+$primary: #007AFF;
+$primary-20: #096FDF;
+$secondary: #FFFFFF;
+$background: #FFFFFF;
+
+$danger: #FF0000;
+$grey: #D1D1D6;
+$grey-20: #AEAEB2;
+$grey-40: #999999;
+
+:root {
+    --primary: #{$primary};
+    --primary-20: #{$primary-20};
+    --secondary: #{$secondary};
+    --background: #{$background};
+    
+    --danger: #{$danger};
+    --grey: #{$grey};
+    --grey-20: #{$grey-20};
+    --grey-40: #{$grey-40};
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+.primary {
+    background-color: var(--primary);
+}
+
+.primary-20 {
+    background-color: var(--primary-20);
+}
+
+.secondary {
+    background-color: var(--secondary);
+}
+
+.container {
+    display:flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+}
+
+.navbar {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-container {
+    margin-top: 5%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    margin-top: 20%;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-group {
+    margin: 5% auto;
+    width: 80%;
+
+    input {
+        width: 100%;
+        padding: 3% 0;
+        padding-left: 10px;
+        font-size: 30px;
+        border: 3px solid var(--primary);
+        border-radius: 9px;
+        
+        &::placeholder {
+            color: var(--grey-40);
+        }
+    }
+
+    .link {
+        display: flex;
+        justify-content: flex-end;
+        cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color: var(--grey-20)
+        }
+    }
+}
+
+.link {
+    a {
+        text-decoration: none;
+        color: var(--primary);
+    }
+}
+
+.btn {
+    width: 100%;
+    margin: auto 2%;
+    padding: 3%;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--secondary);
+    border: 0;
+    border-radius: 9px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+
+    &.secondary {
+        color: var(--secondary);
+        background-color: transparent;
+    }
+}
