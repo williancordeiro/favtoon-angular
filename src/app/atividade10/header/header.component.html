@@ -1,0 +1,22 @@
+<header>
+    <div class="items-start justify-start bg-red-800">
+        <p class="text-yellow-200 text-xs pl-3">feature teste</p>
+    </div>
+    <nav class="navbar bg-red-800 shadow-lg text-white flex flex-col md:flex-row">
+        <div class="container flex justify-around lg:justify-center items-center mx-auto my-auto h-15">
+            <a routerLink="/act11" class="btn btn-ghost hover:!border-none font-bold cursor-pointer text-4xl">Favtoon</a>
+        </div>
+        <div class="drawer drawer-end">
+            <input id="profile-tab" type="checkbox" class="drawer-toggle" />
+            <div class="hidden md:flex drawer-content justify-end">
+                <label for="profile-tab" class="drawer-button btn btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 26 26" class="inline-block h-9 w-9 stroke-current"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg>
+                </label>
+            </div>
+        </div>     
+        <div class="md:hidden tabs tabs-box bg-red-900 w-90 justify-around rounded-2xl">
+            <input type="radio" name="tab_home" class="tab bg-red-800" id="tabHome" aria-label="Home" checked="checked" />
+            <input type="radio" name="tab_profile" class="tab" id="tabProfile" aria-label="Profile" />
+        </div>
+    </nav>
+</header>
