@@ -8,6 +8,9 @@ $grey: #D1D1D6;
 $grey-20: #AEAEB2;
 $grey-40: #999999;
 
+@use "tailwindcss";
+//@use "daisyui";
+
 :root {
     --primary: #{$primary};
     --primary-20: #{$primary-20};

@@ -6,7 +6,7 @@ import { ProfileComponent } from "../profile/profile.component";
 
 @Component({
   selector: 'app-index',
-  imports: [FooterComponent, HomeHeaderComponent, HomeComponent, ProfileComponent],
+  imports: [FooterComponent, HomeHeaderComponent ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
