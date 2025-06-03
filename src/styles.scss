@@ -154,6 +154,13 @@ body {
     }
 }
 
+.warning {
+    color: var(--danger);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
 @media (max-width: 659px) {
     .footer {
         position: relative;
