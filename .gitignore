@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # JSON Server
-db.json
+src/data/db.json
