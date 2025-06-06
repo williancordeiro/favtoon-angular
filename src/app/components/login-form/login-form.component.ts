@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Service } from '../../../api/service';
 import { Router } from '@angular/router';
 import bcrypt from 'bcryptjs';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ RouterModule, FormsModule ],
+  imports: [ RouterModule, FormsModule, NgClass ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
@@ -20,21 +21,43 @@ export class LoginFormComponent {
       this.router.navigate(['/index']);
     }
   }
-
-  router: Router = new Router;
   
   user = {
     email: '',
     password: ''
-  };
+  }
 
-  constructor(private service: Service) {}
+  invalidInput = {
+    email: false,
+    password: false
+  }
+
+  constructor(private service: Service, private router: Router) {}
 
   errorMessage: string = '';
 
-  onSubmit() {
-    if (!this.user.email || !this.user.password) {
+  onSubmit(form: NgForm) {
+    /*if (!this.user.email || !this.user.password) {
       this.errorMessage = `<p class="warning">All fields are required!</p>`;
+      return;
+    }*/
+
+    if (form.invalid) {
+      this.errorMessage = `<p class="warning">All fields are required!</p>`;
+
+      this.invalidInput = {
+        email: !this.user.email,
+        password: !this.user.password
+      }
+
+      setTimeout(() => {
+        this.invalidInput = {
+          email: false,
+          password: false
+        }
+        this.errorMessage = '';
+      }, 3000);
+
       return;
     }
 
@@ -43,6 +66,18 @@ export class LoginFormComponent {
 
       if (!user || !user.password) {
         this.errorMessage = `<p class="warning">Email or Password not valid</p>`;
+        this.invalidInput = {
+          email: true,
+          password: true
+        };
+
+        setTimeout(() => {
+          this.invalidInput = {
+            email: false,
+            password: false
+          };
+          this.errorMessage = '';
+        }, 3000);
         return;
       }
 
@@ -54,6 +89,18 @@ export class LoginFormComponent {
         this.router.navigate(['/index']);
       } else {
         this.errorMessage = `<p class="warning">Email or Password not valid</p>`;
+        this.invalidInput = {
+          email: true,
+          password: true
+        };
+
+        setTimeout(() => {
+          this.invalidInput = {
+            email: false,
+            password: false
+          };
+          this.errorMessage = '';
+        }, 3000);
       }
     }, error => {
       this.errorMessage = `<p class="warning">An error occurred while trying to log in. Please try again later.</p>`;
