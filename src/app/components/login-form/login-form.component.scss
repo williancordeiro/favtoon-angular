@@ -1,0 +1,14 @@
+.warning {
+    color: var(--danger);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.invalid-input {
+    border-color: var(--danger);
+
+    &:focus {
+        border-color: var(--danger);
+    }
+}

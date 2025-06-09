@@ -1,0 +1,7 @@
+$feature: #00B14F;
+$feature-20: #00A348;
+
+:host {
+    --primary: #{$feature};
+    --primary-20: #{$feature-20};
+}
