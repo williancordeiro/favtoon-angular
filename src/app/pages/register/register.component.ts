@@ -8,7 +8,7 @@ import { RegisterFormComponent } from "../../components/register-form/register-f
 
 @Component({
   selector: 'app-register',
-  imports: [HeaderComponent, FooterComponent, RegisterFormComponent , RouterModule],
+  imports: [RegisterFormComponent , RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
