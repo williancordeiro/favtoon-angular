@@ -28,8 +28,4 @@ export class Service {
     getSeries(id: string) {
         return this.http.get(`${this.apiUrl}/series/${id}`);
     }
-
-    getAllSeries() {   
-        return this.http.get(`${this.apiUrl}/series`);
-    }
 }
