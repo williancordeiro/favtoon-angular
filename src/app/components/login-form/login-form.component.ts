@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { Service } from '../../../api/service';
+import { UserService } from '../../../../back-end/service/UserService';
 import { Router } from '@angular/router';
 import bcrypt from 'bcryptjs';
 import { NgClass } from '@angular/common';
@@ -32,7 +32,7 @@ export class LoginFormComponent {
     password: false
   }
 
-  constructor(private service: Service, private router: Router) {}
+  constructor(private service: UserService, private router: Router) {}
 
   errorMessage: string = '';
 

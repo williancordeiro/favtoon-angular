@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Service } from '../../../api/service';
+import { UserService } from '../../../../back-end/service/UserService';
 import { Router } from '@angular/router';
 import bcrypt from 'bcryptjs';
 import { NgClass } from '@angular/common';
+import { User } from '../../../../back-end/User';
 
 @Component({
   selector: 'app-register-form',
@@ -27,7 +28,7 @@ export class RegisterFormComponent {
     confirmPassword: false
   }
 
-  constructor(private service: Service, private router: Router) {}
+  constructor(private service: UserService, private router: Router) {}
 
   emailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
 
@@ -131,11 +132,11 @@ export class RegisterFormComponent {
     const salt = bcrypt.genSaltSync(10);
     const passwordHash = bcrypt.hashSync(this.user.password, salt);
 
-    const newUser = {
-      name: this.user.name,
-      email: this.user.email,
-      password: passwordHash
-    };
+    const newUser = new User(
+      this.user.name,
+      this.user.email,
+      passwordHash
+    )
 
     this.service.createUser(newUser).subscribe(response => {
       alert('User registered successfully!');
