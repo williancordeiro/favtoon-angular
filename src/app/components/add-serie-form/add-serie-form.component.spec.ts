@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeHeaderComponent } from './home-header.component';
+import { AddSerieFormComponent } from './add-serie-form.component';
 
-describe('HomeHeaderComponent', () => {
-  let component: HomeHeaderComponent;
-  let fixture: ComponentFixture<HomeHeaderComponent>;
+describe('AddSerieFormComponent', () => {
+  let component: AddSerieFormComponent;
+  let fixture: ComponentFixture<AddSerieFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomeHeaderComponent]
+      imports: [AddSerieFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HomeHeaderComponent);
+    fixture = TestBed.createComponent(AddSerieFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

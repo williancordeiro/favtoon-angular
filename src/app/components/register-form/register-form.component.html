@@ -1,20 +1,79 @@
-<form class="form" #formRef="ngForm" (ngSubmit)="onSubmit(formRef)">
-    <div class="form-group" [innerHTML]="errorMessage" class="warning"></div>
-    <div class="form-group">
-        <input [ngClass]="{ 'invalid-input': invalidInput.name }" type="text" id="name" name="name" [(ngModel)]="user.name" placeholder="Name. . ." required>
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group warning" [innerHTML]="errorMessage"></div>
+
+  <div class="form-group">
+    <input
+      formControlName="name"
+      type="text"
+      id="name"
+      placeholder="Name..."
+      [ngClass]="{ 'invalid-input': form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)" class="warning">
+      Name is required.
     </div>
-    <div class="form-group">
-        <input [ngClass]="{ 'invalid-input': invalidInput.email }" type="text" id="email" name="email" [(ngModel)]="user.email" placeholder="Email. . ." required>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="email"
+      type="text"
+      id="email"
+      placeholder="Email..."
+      [ngClass]="{ 'invalid-input': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('email')?.errors?.['required'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+      Email is required.
     </div>
-    <div class="form-group">
-        <input [ngClass]="{ 'invalid-input': invalidInput.password }" (input)="onPasswordInput()" type="password" id="password" name="password" [(ngModel)]="user.password" placeholder="Password. . ." required>
-        <div [innerHTML]="errorPassMessage" class="password-options"></div>
+    <div *ngIf="form.get('email')?.errors?.['pattern'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+      Invalid email format.
     </div>
-    <div class="form-group">
-        <input [ngClass]="{ 'invalid-input': invalidInput.confirmPassword }" type="password" (input)="onPassConfirmInput()" id="confirmPass" name="confirmPassword" [(ngModel)]="user.confirmPassword" placeholder="Confirm Password. . ." required>
-        <div [innerHTML]="errorPassConfiMessage" class="password-options"></div>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="password"
+      type="password"
+      id="password"
+      placeholder="Password..."
+      [ngClass]="{ 'invalid-input': form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('password')?.errors?.['required'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="warning">
+      Password is required.
     </div>
-    <div class="form-group">
-        <button class="btn primary" type="submit">Register</button>
+    <div *ngIf="form.get('password')?.errors?.['pattern'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="warning">
+      <span>
+        <ul>
+            <li>Password must be at least 6 characters long.</li>
+            <li>Must contain at least one uppercase letter.</li>
+            <li>Must contain at least one lowercase letter.</li>
+            <li>Must contain at least one number.</li>
+        </ul>
+      </span>
     </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="confirmPassword"
+      type="password"
+      id="confirmPass"
+      placeholder="Confirm Password..."
+      [ngClass]="{ 'invalid-input': (form.get('confirmPassword')?.invalid && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)) || (form.errors?.['notMatching'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)) }"
+      required
+    >
+    <div *ngIf="form.get('confirmPassword')?.errors?.['required'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)" class="warning">
+      Confirm password is required.
+    </div>
+    <div *ngIf="form.errors?.['notMatching'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)" class="warning">
+      Passwords do not match.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn primary" type="submit" [disabled]="form.invalid">Register</button>
+  </div>
 </form>

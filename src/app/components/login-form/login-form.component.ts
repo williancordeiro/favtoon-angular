@@ -1,109 +1,59 @@
-import { Component } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { UserService } from '../../../../back-end/service/UserService';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../back-end/service/UserService';
 import bcrypt from 'bcryptjs';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ RouterModule, FormsModule, NgClass ],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, NgClass],
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss'
+  styleUrl: './login-form.component.scss',
+  providers: [UserService]
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
+
+  form: FormGroup;
+  errorMessage: string = '';
+  private fb: FormBuilder;
+  private service: UserService;
+  private router: Router
+
+  constructor(fb: FormBuilder, service: UserService, router: Router) {
+    this.fb = fb;
+    this.service = service;
+    this.router = router;
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
     const user = localStorage.getItem('user');
-
     if (user) {
       this.router.navigate(['/index']);
     }
   }
-  
-  user = {
-    email: '',
-    password: ''
-  }
 
-  invalidInput = {
-    email: false,
-    password: false
-  }
-
-  constructor(private service: UserService, private router: Router) {}
-
-  errorMessage: string = '';
-
-  onSubmit(form: NgForm) {
-    /*if (!this.user.email || !this.user.password) {
-      this.errorMessage = `<p class="warning">All fields are required!</p>`;
-      return;
-    }*/
-
-    if (form.invalid) {
-      this.errorMessage = `<p class="warning">All fields are required!</p>`;
-
-      this.invalidInput = {
-        email: !this.user.email,
-        password: !this.user.password
-      }
-
-      setTimeout(() => {
-        this.invalidInput = {
-          email: false,
-          password: false
-        }
-        this.errorMessage = '';
-      }, 3000);
-
+  onSubmit() {
+    if (this.form.invalid) {
+      this.errorMessage = 'Please fill out all fields correctly.';
       return;
     }
 
-    this.service.getUserByEmail(this.user.email).subscribe((response: any[]) => {
-      const user = response[0];
+    const { email, password } = this.form.value;
 
-      if (!user || !user.password) {
-        this.errorMessage = `<p class="warning">Email or Password not valid</p>`;
-        this.invalidInput = {
-          email: true,
-          password: true
-        };
+    this.service.login(email, password).then((autoData: any) => {
+      localStorage.setItem('user', JSON.stringify(autoData.record));
+      localStorage.setItem('token', autoData.token);
+      this.router.navigate(['/index']);
 
-        setTimeout(() => {
-          this.invalidInput = {
-            email: false,
-            password: false
-          };
-          this.errorMessage = '';
-        }, 3000);
-        return;
-      }
-
-      const passwordIsValid = bcrypt.compareSync(this.user.password, user.password);
-
-      if (passwordIsValid) {
-        alert('Login successful!');
-        localStorage.setItem('user', JSON.stringify(user));
-        this.router.navigate(['/index']);
-      } else {
-        this.errorMessage = `<p class="warning">Email or Password not valid</p>`;
-        this.invalidInput = {
-          email: true,
-          password: true
-        };
-
-        setTimeout(() => {
-          this.invalidInput = {
-            email: false,
-            password: false
-          };
-          this.errorMessage = '';
-        }, 3000);
-      }
-    }, error => {
-      this.errorMessage = `<p class="warning">An error occurred while trying to log in. Please try again later.</p>`;
+    }).catch((error: any) => {
+      this.errorMessage = 'Email or password is incorrect.';
+      console.error('Login error:', error);
     });
   }
 }
