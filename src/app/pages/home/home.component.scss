@@ -1,0 +1,40 @@
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.search-bar {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  border-bottom: 2px solid var(--grey-20);
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+}
+
+.fab-button {
+    position: fixed;
+    bottom: 40%;
+    right: 5%;
+    background-color: var(--success);
+    font-size: 36px;
+    color: var(--secondary);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+    
+    &:hover {
+        background-color: var(--success-20);
+        cursor: pointer;
+    }
+}

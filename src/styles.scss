@@ -4,6 +4,9 @@ $secondary: #FFFFFF;
 $background: #FFFFFF;
 
 $danger: #FF0000;
+$success: #28A745;
+$success-20: #218838;
+
 $grey: #D1D1D6;
 $grey-20: #AEAEB2;
 $grey-40: #999999;
@@ -15,6 +18,9 @@ $grey-40: #999999;
     --background: #{$background};
     
     --danger: #{$danger};
+    --success: #{$success};
+    --success-20: #{$success-20};
+
     --grey: #{$grey};
     --grey-20: #{$grey-20};
     --grey-40: #{$grey-40};
@@ -25,6 +31,7 @@ $grey-40: #999999;
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
+    width: 100%;
 }
 
 .primary {
@@ -47,6 +54,11 @@ body {
         color: var(--secondary);
         background-color: transparent;
     }
+
+    &.primary {
+        color: var(--primary);
+        background-color: transparent;
+    }
 }
 
 .container {
@@ -55,13 +67,46 @@ body {
     text-align: center;
     align-items: center;
     margin: auto;
+    width: 100%;
 }
 
 .navbar {
     width: 100%;
+    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    background-color: var(--primary);
+    padding: 2% 0;
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+        border-radius: 12px;
+        background-color: var(--primary-20);
+        padding: 2px;
+
+        button {
+            flex: 1;
+            background-color: transparent;
+            border: none;
+            color: var(--grey-20);
+            font-size: 18px;
+            font-weight: bold;
+            padding: 6px 0;
+            border-radius:12px;
+            transition: background-color 0.5s;
+            cursor: pointer;
+
+            &.active {
+                background-color: var(--primary);
+                color: var(--secondary)
+            }
+        }
+    }
 }
 
 .form-container {

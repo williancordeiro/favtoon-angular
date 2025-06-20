@@ -1,15 +1,38 @@
-<form class="form" #formRef="ngForm" (ngSubmit)="onSubmit(formRef)">
-    <div class="form-group" [innerHTML]="errorMessage" class="warning"></div>
-    <div class="form-group">
-        <input type="text" id="email" name="email" [ngClass]="{ 'invalid-input': invalidInput.email }" [(ngModel)]="user.email" placeholder="Email. . ." required>
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group warning" [innerHTML]="errorMessage"></div>
+
+  <div class="form-group">
+    <input
+      formControlName="email"
+      type="text"
+      id="email"
+      placeholder="Email..."
+      [ngClass]="{ 'invalid-input': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('email')?.errors?.['required'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+      Email is required.
     </div>
-    <div class="form-group">
-        <input type="password" id="password" name="password" name="email" [ngClass]="{ 'invalid-input': invalidInput.password }" [(ngModel)]="user.password" placeholder="Password. . ." required>
-        <div class="link">
-            <a routerLink="/forgot-password">Forgot Password?</a>
-        </div>
+    <div *ngIf="form.get('email')?.errors?.['email'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+      Invalid email format.
     </div>
-    <div class="form-group">
-        <button class="btn primary" type="submit">Login</button>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="password"
+      type="password"
+      id="password"
+      placeholder="Password..."
+      [ngClass]="{ 'invalid-input': form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('password')?.errors?.['required'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="warning">
+      Password is required.
     </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn primary" type="submit" [disabled]="form.invalid">Login</button>
+  </div>
 </form>

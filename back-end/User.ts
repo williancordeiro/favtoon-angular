@@ -34,12 +34,6 @@ export class User {
     }
 
     private setPassword(password: string): void {
-        let salt = bcrypt.genSaltSync(10);
-
-        this.password = bcrypt.hashSync(password, salt);
-    }
-
-    public checkPassword(password: string): boolean {
-        return bcrypt.compareSync(password, this.password);
+        this.password = password;
     }
 }

@@ -1,146 +1,84 @@
 import { Component } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../../back-end/service/UserService';
 import { Router } from '@angular/router';
-import bcrypt from 'bcryptjs';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { User } from '../../../../back-end/User';
 
 @Component({
   selector: 'app-register-form',
-  imports: [ FormsModule, NgClass ],
+  imports: [ ReactiveFormsModule, NgClass, CommonModule ],
   templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.scss'
+  styleUrl: './register-form.component.scss',
+  providers: [UserService]
 })
 export class RegisterFormComponent {
 
-  user = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  }
-
-  invalidInput = {
-    name: false,
-    email: false,
-    password: false,
-    confirmPassword: false
-  }
-
-  constructor(private service: UserService, private router: Router) {}
-
-  emailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
-
-  passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$");
-
+  form: FormGroup;
   errorMessage: string = '';
-  errorPassMessage: string = ``;
-  errorPassConfiMessage: string = ``;
+  private fb: FormBuilder;
+  private service: UserService;
+  private router: Router;
 
-  onPasswordInput() {
-    this.invalidInput.password = !this.user.password;
+  constructor(fb: FormBuilder, service: UserService, router: Router) {
+    this.fb = fb;
+    this.service = service;
+    this.router = router;
 
-    let passwordTimeOut: any;
-
-    if (!this.passwordRegex.test(this.user.password)) {
-      this.invalidInput.password = true;
-      this.errorPassMessage = `
-      <ul>
-        <li>At least 6 characters</li>
-        <li>At least one uppercase letter</li>
-        <li>At least one lowercase letter</li>
-        <li>At least one number</li>
-        <li>At least one special character</li>
-      </ul>
-      `;
-
-      clearTimeout(passwordTimeOut);
-
-      passwordTimeOut = setTimeout(() => {
-        this.invalidInput.password = false;
-        this.errorPassMessage = ``;
-      }, 3000);
-    } else {
-      this.invalidInput.password = false;
-      this.errorPassMessage = ``;
-      clearTimeout(passwordTimeOut);
-    }
-
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{6,}$/)
+      ]],
+      confirmPassword: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
   }
 
-  onPassConfirmInput() {
-    this.invalidInput.confirmPassword = !this.user.confirmPassword;
-
-    let confirmPasswordTimeOut: any;
-
-    if (this.user.password !== this.user.confirmPassword) {
-      this.invalidInput.confirmPassword = true;
-
-      this.errorPassConfiMessage = `<p class="warning">Passwords not correspond</p>`;
-
-      clearTimeout(confirmPasswordTimeOut);
-
-      confirmPasswordTimeOut = setTimeout(() => {
-        this.invalidInput.confirmPassword = false;
-        this.errorPassConfiMessage = ``;
-      }, 3000);
-    } else {
-      this.invalidInput.confirmPassword = false;
-      this.errorPassConfiMessage = ``;
-      clearTimeout(confirmPasswordTimeOut);
-    }
+  passwordMatchValidator(group: FormGroup) {
+    const passwordControl = group.get('password');
+    const confirmPasswordControl = group.get('confirmPassword');
+    const password = passwordControl ? passwordControl.value : '';
+    const confirmPassword = confirmPasswordControl ? confirmPasswordControl.value : '';
+    return password === confirmPassword ? null : { notMatching: true };
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
+    if (this.form.invalid) {
+      this.errorMessage = 'Please fill out the form correctly.';
+      return;
+    }
 
-    if (form.invalid) {
-      this.errorMessage = `<p class="warning">All fields are required!</p>`;
+    const { name, email, password, confirmPassword } = this.form.value;
 
-      this.invalidInput = {
-        name: !this.user.name,
-        email: !this.user.email,
-        password: !this.user.password,
-        confirmPassword: !this.user.confirmPassword
+    this.service.getUserByEmail(email).then((result: any) => {
+      // PocketBase retorna um objeto com items (array de usuários encontrados)
+      if (result && result.items && result.items.length > 0) {
+        this.errorMessage = 'Email already exists. Please use a different email.';
+        return;
       }
 
-      setTimeout(() => {
-        this.invalidInput = {
-          name: false,
-          email: false,
-          password: false,
-          confirmPassword: false
-        };
-        this.errorMessage = '';
-      }, 3000);
+      const newUser = {
+        name: name,
+        email: email,
+        password: password,
+        passwordConfirm: confirmPassword
+      }
 
-      return;
-    }
-
-    if (!this.emailRegex.test(this.user.email)) {
-      this.errorMessage = `<p class="warning">Invalid email format!</p>`;
-      this.invalidInput.email = true;
-
-      setTimeout(() => {
-        this.invalidInput.email = false;
-        this.errorMessage = '';
-      }, 3000);
-
-      return;
-    }
-
-    const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync(this.user.password, salt);
-
-    const newUser = new User(
-      this.user.name,
-      this.user.email,
-      passwordHash
-    )
-
-    this.service.createUser(newUser).subscribe(response => {
-      alert('User registered successfully!');
-      this.router.navigate(['/index']);
-    })
+      this.service.createUser(newUser).then(() => {
+        this.router.navigate(['/login']);
+      }).catch((err: any) => {
+        this.errorMessage = 'An error occurred while creating the user. Please try again later.';
+        console.error(err);
+      });
+    }).catch((error: any) => {
+      this.errorMessage = 'An error occurred while checking the email. Please try again later.';
+      console.error(error);
+      console.log('Error during email check:', error);
+    });
   }
- }
+}

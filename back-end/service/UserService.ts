@@ -1,24 +1,20 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { User } from "../User";
+import { pb } from './PocketBaseService';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class UserService {
-    private apiUrl = '/api';
 
-    constructor(private http: HttpClient) {}
-
-    createUser(user: User) {
-        return this.http.post(`${this.apiUrl}/users`, user);
+    createUser(user: any) {
+        return pb.collection('users').create(user);
     }
 
     getUserById(id: string) {
-        return this.http.get(`${this.apiUrl}/users/${id}`);
+        return pb.collection('users').getOne(id);
     }
 
     getUserByEmail(email: string) {
-        return this.http.get<User[]>(`${this.apiUrl}/users?email=${email}`);
+        return pb.collection('users').getList(1, 10, { filter: `email="${email}"` });
+    }
+
+    login(email: string, password: string) {
+        return pb.collection('users').authWithPassword(email, password);
     }
 }
