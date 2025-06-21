@@ -2,7 +2,18 @@
     <div class="search-bar-container">
         <input class="search-bar" type="text" placeholder="Search..." />
     </div>
+        
     <div>
         <button class="fab-button" (click)="handleAdd()">+</button>
     </div>
+
+    <div *ngIf="errorMessage" class="warning">{{ errorMessage }}</div>
+
+    <ul>
+        <li *ngFor="let serie of series">
+            <strong>{{ serie.title }}</strong> - {{ serie.year }}<br>
+            <!-- <img *ngIf="serie.image" [src]="getSerieImageUrl(serie)" alt="Serie image" width="120"> -->
+            <span *ngIf="!serie.image">Sem imagem</span>
+        </li>
+    </ul>
 </div>

@@ -11,7 +11,9 @@ export class SerieService {
     }
 
     getSeriesByUserId(userId: string) {
-        return pb.collection('series').getList(1, 10, { filter: `user="${userId}"` });
+        return pb.collection('series').getList(1, 10, {
+            filter: `user_id = "${userId}"`
+        });
     }
 
     updateSerie(id: string, serieData: any) {

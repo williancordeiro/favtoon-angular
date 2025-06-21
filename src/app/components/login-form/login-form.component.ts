@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../../back-end/service/UserService';
 import bcrypt from 'bcryptjs';
 import { CommonModule, NgClass } from '@angular/common';
+import { pb } from '../../../../back-end/service/PocketBaseService';
 
 @Component({
   selector: 'app-login-form',
@@ -32,9 +33,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    const user = localStorage.getItem('user');
-    if (user) {
-      this.router.navigate(['/index']);
+    if (pb.authStore.isValid) {
+      this.router.navigate(['/index/home']);
     }
   }
 
@@ -46,14 +46,14 @@ export class LoginFormComponent implements OnInit {
 
     const { email, password } = this.form.value;
 
-    this.service.login(email, password).then((autoData: any) => {
-      localStorage.setItem('user', JSON.stringify(autoData.record));
-      localStorage.setItem('token', autoData.token);
-      this.router.navigate(['/index']);
-
+    this.service.login(email, password).then(() => {
+      if (pb.authStore.isValid)
+          this.router.navigate(['/index/home']);
+      else
+          this.errorMessage = 'Login failed. Please check your credentials.';
     }).catch((error: any) => {
-      this.errorMessage = 'Email or password is incorrect.';
       console.error('Login error:', error);
+      this.errorMessage = 'Login failed. Please check your credentials.';
     });
   }
 }

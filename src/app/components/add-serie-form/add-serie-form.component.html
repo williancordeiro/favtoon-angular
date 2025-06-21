@@ -1,1 +1,100 @@
-<p>add-serie-form works!</p>
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group warning" [innerHTML]="errorMessage"></div>
+
+    <div class="form-group">
+        <label for="image" id="imageLabel" class="btn primary">
+            <span *ngIf="!form.get('image')?.value">Select Image</span>
+            <span *ngIf="form.get('image')?.value">Change Image</span>
+        </label>
+
+        <input 
+            type="file"
+            id="image"
+            (change)="onFileSelected($event)"
+            [ngClass]="{ 'invalid-input': form.get('image')?.invalid && (form.get('image')?.dirty || form.get('image')?.touched) }"
+            accept="image/*"
+            formControlName="image"
+            aria-labelledby="imageLabel"
+            hidden
+        />
+    </div>
+    
+    <div class="form-group">
+        <img *ngIf="imagePreview" [src]="imagePreview" alt="Preview" class="selected-img"/>
+    </div>
+
+    <div class="form-group">       
+        <input
+            formControlName="title"
+            type="text"
+            id="title"
+            placeholder="Title. . ."
+            [ngClass]="{ 'invalid-input': form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched) }"
+            required
+        >
+        <div *ngIf="form.get('title')?.errors?.['required'] && (form.get('title')?.dirty || form.get('title')?.touched)" class="warning">
+            Title is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <select
+            class="form-select"
+            formControlName="year"
+            id="year"
+            name="year"
+            [ngClass]="{ 'invalid-input': form.get('year')?.invalid && (form.get('year')?.dirty || form.get('year')?.touched) }"
+            required
+        >
+            <option *ngFor="let year of years" [value]="year" >{{ year }}</option>
+        </select>
+        <div *ngIf="form.get('year')?.errors?.['required'] && (form.get('year')?.dirty || form.get('year')?.touched)" class="warning">
+            Year is required.
+        </div> 
+    </div>
+
+    <div class="form-group">
+        <input
+            formControlName="genre"
+            type="text"
+            id="genre"
+            placeholder="Genre. . ."
+            [ngClass]="{ 'invalid-input': form.get('genre')?.invalid && (form.get('genre')?.dirty || form.get('genre')?.touched) }"
+        >
+        <div *ngIf="form.get('genre')?.errors?.['required'] && (form.get('genre')?.dirty || form.get('genre')?.touched)" class="warning">
+            Genre is required and must be a comma-separated list.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input
+            formControlName="seasons"
+            min="1"
+            max="100"
+            type="number"
+            id="seasons"
+            placeholder="1"
+            [ngClass]="{ 'invalid-input': form.get('seasons')?.invalid && (form.get('seasons')?.dirty || form.get('seasons')?.touched) }"
+        >
+        <div *ngIf="form.get('seasons')?.errors?.['required'] && (form.get('seasons')?.dirty || form.get('seasons')?.touched)" class="warning">
+            Number of seasons is required and must be a positive integer.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input
+            formControlName="synopsis"
+            type="text"
+            id="synopsis"
+            placeholder="Synopsis. . ."
+            [ngClass]="{ 'invalid-input': form.get('synopsis')?.invalid && (form.get('synopsis')?.dirty || form.get('synopsis')?.touched) }"
+        >
+        <div *ngIf="form.get('synopsis')?.errors?.['required'] && (form.get('synopsis')?.dirty || form.get('synopsis')?.touched)" class="warning">
+            Synopsis is required.
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn primary" [disabled]="form.invalid">Add Serie</button>
+    </div>
+</form>
