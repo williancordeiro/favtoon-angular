@@ -18,8 +18,8 @@
 }
 
 .fab-button {
-    position: fixed;
-    bottom: 40%;
+    position: absolute;
+    bottom: 16%;
     right: 5%;
     background-color: var(--success);
     font-size: 36px;
@@ -37,4 +37,18 @@
         background-color: var(--success-20);
         cursor: pointer;
     }
+}
+
+@media (max-width: 320px) {
+  .fab-button {
+    bottom: 25%;
+    right: 5%;
+  }   
+}
+
+@media (min-width: 420px) {
+  .fab-button {
+    bottom: 10%;
+    right: 5%;
+  }
 }
