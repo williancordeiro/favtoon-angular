@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SerieService } from '../../../../back-end/service/SerieService';
 import { pb } from '../../../../back-end/service/PocketBaseService';
 
 @Component({
   selector: 'app-serie',
-  imports: [FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './serie.component.html',
   styleUrl: './serie.component.scss',
   providers: [SerieService]
@@ -15,6 +15,7 @@ import { pb } from '../../../../back-end/service/PocketBaseService';
 export class SerieComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
 
+  serieForm!: FormGroup;
   serie: any = {
     title: '',
     synopsis: '',
@@ -33,8 +34,21 @@ export class SerieComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private serieService: SerieService
-  ) {}
+    private serieService: SerieService,
+    private fb: FormBuilder
+  ) {
+    this.initForm();
+  }
+
+  initForm() {
+    this.serieForm = this.fb.group({
+      title: [{value: '', disabled: true}, [Validators.required]],
+      year: [{value: '', disabled: true}, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+      genre: [{value: '', disabled: true}, [Validators.required]],
+      seasons: [{value: '', disabled: true}, [Validators.required, Validators.min(1)]],
+      synopsis: [{value: '', disabled: true}]
+    });
+  }
 
   ngOnInit() {
     this.loadSerie();
@@ -57,6 +71,14 @@ export class SerieComponent implements OnInit {
           if (foundSerie) {
             this.serie = { ...foundSerie };
             this.imagePreviewUrl = this.serieService.getImageSerie(foundSerie);
+            // Atualizar o formulário com os dados da série
+            this.serieForm.patchValue({
+              title: foundSerie.title,
+              year: foundSerie.year,
+              genre: foundSerie.genre,
+              seasons: foundSerie.seasons,
+              synopsis: foundSerie.synopsis
+            });
           } else {
             this.errorMessage = 'Serie not found.';
           }
@@ -79,6 +101,24 @@ export class SerieComponent implements OnInit {
   toggleEdit() {
     this.isEditing = !this.isEditing;
     this.clearMessages();
+    
+    if (this.isEditing) {
+      // Habilitar todos os campos para edição
+      this.serieForm.enable();
+    } else {
+      // Desabilitar todos os campos e restaurar valores originais
+      this.serieForm.disable();
+      // Restaurar valores originais se cancelar
+      this.serieForm.patchValue({
+        title: this.serie.title,
+        year: this.serie.year,
+        genre: this.serie.genre,
+        seasons: this.serie.seasons,
+        synopsis: this.serie.synopsis
+      });
+      this.selectedFile = null;
+      this.imagePreviewUrl = this.serieService.getImageSerie(this.serie);
+    }
   }
 
   onFileSelected(event: any) {
@@ -104,12 +144,18 @@ export class SerieComponent implements OnInit {
     try {
       this.clearMessages();
       
+      if (!this.serieForm.valid) {
+        this.errorMessage = 'Please fill in all required fields correctly.';
+        return;
+      }
+      
+      const formValues = this.serieForm.value;
       const updateData: any = {
-        title: this.serie.title,
-        synopsis: this.serie.synopsis,
-        year: this.serie.year,
-        genre: this.serie.genre,
-        seasons: this.serie.seasons
+        title: formValues.title,
+        synopsis: formValues.synopsis,
+        year: formValues.year,
+        genre: formValues.genre,
+        seasons: formValues.seasons
       };
 
       if (this.selectedFile) {
@@ -121,6 +167,9 @@ export class SerieComponent implements OnInit {
       this.successMessage = 'Serie updated successfully!';
       this.isEditing = false;
       this.selectedFile = null;
+      
+      // Desabilitar o formulário após salvar
+      this.serieForm.disable();
       
       setTimeout(() => {
         this.loadSerie();

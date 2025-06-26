@@ -12,105 +12,117 @@
   </div>
 
   <div class="serie-form" *ngIf="serie.id">
-    <div class="image-section">
-      <div class="image-container" (click)="triggerFileInput()">
-        <img 
-          [src]="imagePreviewUrl || 'assets/images/default.png'" 
-          alt="Serie image"
-          class="serie-image">
-        <div class="image-overlay" [class.editing]="isEditing">
-          <span>{{ isEditing ? 'Click to change image' : serie.title }}</span>
+    <form [formGroup]="serieForm">
+      <div class="image-section">
+        <div class="image-container" (click)="triggerFileInput()">
+          <img 
+            [src]="imagePreviewUrl || 'assets/images/default.png'" 
+            alt="Serie image"
+            class="serie-image">
+          <div class="image-overlay" [class.editing]="isEditing">
+            <span>{{ isEditing ? 'Click to change image' : serie.title }}</span>
+          </div>
+        </div>
+        
+        <input 
+          #fileInput
+          type="file" 
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none;">
+      </div>
+
+      
+      <div class="form-fields">
+        <div class="field-group">
+          <label for="title">Title:</label>
+          <input 
+            id="title"
+            type="text" 
+            formControlName="title"
+            class="form-input"
+            placeholder="Serie name">
+          <div *ngIf="serieForm.get('title')?.invalid && serieForm.get('title')?.touched" class="error-text">
+            Title is required
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="year">Year:</label>
+          <input 
+            id="year"
+            type="number" 
+            formControlName="year"
+            class="form-input"
+            placeholder="Release year">
+          <div *ngIf="serieForm.get('year')?.invalid && serieForm.get('year')?.touched" class="error-text">
+            Year is required and must be valid
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="genre">Genre:</label>
+          <input 
+            id="genre"
+            type="text" 
+            formControlName="genre"
+            class="form-input"
+            placeholder="Serie genre">
+          <div *ngIf="serieForm.get('genre')?.invalid && serieForm.get('genre')?.touched" class="error-text">
+            Genre is required
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="seasons">Seasons:</label>
+          <input 
+            id="seasons"
+            type="number" 
+            formControlName="seasons"
+            class="form-input"
+            min="1"
+            placeholder="Number of seasons">
+          <div *ngIf="serieForm.get('seasons')?.invalid && serieForm.get('seasons')?.touched" class="error-text">
+            Seasons is required and must be at least 1
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="synopsis">Synopsis:</label>
+          <textarea 
+            id="synopsis"
+            formControlName="synopsis"
+            class="form-textarea"
+            rows="4"
+            placeholder="Serie synopsis"></textarea>
         </div>
       </div>
-      
-      <input 
-        #fileInput
-        type="file" 
-        accept="image/*"
-        (change)="onFileSelected($event)"
-        style="display: none;">
-    </div>
 
-    
-    <div class="form-fields">
-      <div class="field-group">
-        <label for="title">Title:</label>
-        <input 
-          id="title"
-          type="text" 
-          [(ngModel)]="serie.title"
-          [disabled]="!isEditing"
-          class="form-input"
-          placeholder="Serie name">
-      </div>
-
-      <div class="field-group">
-        <label for="year">Year:</label>
-        <input 
-          id="year"
-          type="number" 
-          [(ngModel)]="serie.year"
-          [disabled]="!isEditing"
-          class="form-input"
-          placeholder="Release year">
-      </div>
-
-      <div class="field-group">
-        <label for="genre">Genre:</label>
-        <input 
-          id="genre"
-          type="text" 
-          [(ngModel)]="serie.genre"
-          [disabled]="!isEditing"
-          class="form-input"
-          placeholder="Serie genre">
-      </div>
-
-      <div class="field-group">
-        <label for="seasons">Seasons:</label>
-        <input 
-          id="seasons"
-          type="number" 
-          [(ngModel)]="serie.seasons"
-          [disabled]="!isEditing"
-          class="form-input"
-          min="1"
-          placeholder="Number of seasons">
-      </div>
-
-      <div class="field-group">
-        <label for="synopsis">Synopsis:</label>
-        <textarea 
-          id="synopsis"
-          [(ngModel)]="serie.synopsis"
-          [disabled]="!isEditing"
-          class="form-textarea"
-          rows="4"
-          placeholder="Serie synopsis"></textarea>
-      </div>
-    </div>
-
-    <div class="action-buttons">
-      <button 
-        *ngIf="!isEditing" 
-        class="btn primary" 
-        (click)="toggleEdit()">
-        Edit Serie
-      </button>
-      
-      <div *ngIf="isEditing" class="edit-buttons">
+      <div class="action-buttons">
         <button 
-          class="btn cancel" 
+          *ngIf="!isEditing" 
+          class="btn primary" 
           (click)="toggleEdit()">
-          Cancel
+          Edit Serie
         </button>
-        <button 
-          class="btn success" 
-          (click)="saveSerie()">
-          Save
-        </button>
+        
+        <div *ngIf="isEditing" class="edit-buttons">
+          <button 
+            type="button"
+            class="btn cancel" 
+            (click)="toggleEdit()">
+            Cancel
+          </button>
+          <button 
+            type="button"
+            class="btn success" 
+            (click)="saveSerie()"
+            [disabled]="!serieForm.valid">
+            Save
+          </button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 
   <div class="loading" *ngIf="!serie.id && !errorMessage">

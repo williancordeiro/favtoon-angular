@@ -6,7 +6,8 @@ $background: #FFFFFF;
 $danger: #FF0000;
 $success: #28A745;
 $success-20: #218838;
-$cancel: '#999999';
+$cancel: '#AEAEB2';
+$cancel-20: #7D7D7D;
 
 $grey: #D1D1D6;
 $grey-20: #AEAEB2;
@@ -22,6 +23,7 @@ $grey-40: #999999;
     --success: #{$success};
     --success-20: #{$success-20};
     --cancel: #{$cancel};
+    --cancel-20: #{$cancel-20};
 
     --grey: #{$grey};
     --grey-20: #{$grey-20};
@@ -54,6 +56,10 @@ body {
 
 .danger {
     background-color: var(--danger);
+}
+
+.cancel {
+    background-color: var(--cancel);
 }
 
 .title {
@@ -232,7 +238,7 @@ body {
 
     &.cancel {
         &:hover {
-            background: var(--cancel);
+            background: var(--cancel-20);
             color: var(--secondary);
         }
     }
