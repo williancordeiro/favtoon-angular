@@ -129,3 +129,98 @@
         width: 60%;
     } 
 }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    :host {
+        .btn {
+            width: 45%;
+            padding: 1.3% 0;
+            font-size: 24px;
+            margin-top: 2%;
+        }
+    }
+
+    .image-btn {
+        top: 64%;
+        right: 44.4%;
+    }
+
+    .profile-image {
+        margin: 5% auto;
+    }
+
+    .input-profile {
+        width: 45%;
+
+        input {
+            width: 90%;
+            font-size: 24px;
+            padding: 1.5% 0;
+            padding-left: 10px;
+        }
+    } 
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+    :host {
+        .btn {
+            width: 30%;
+            padding: 0.5% 0;
+            font-size: 21px;
+            margin-top: 1%;
+        }
+    }
+
+    .profile-image {
+        margin: 3% auto;
+    }
+
+    .image-btn {
+        top: 57.4%;
+        right: 46.1%;
+    }
+
+    .input-profile {
+        width: 30%;
+        margin-top: 0.5%;
+
+        input {
+            width: 110%;
+            font-size: 21px;
+            padding: 1% 0;
+            padding-left: 10px;
+        }
+    } 
+}
+
+@media (min-width: 1441px) {
+    :host {
+        .btn {
+            width: 20%;
+            padding: 0.5% 0;
+            font-size: 18px;
+            margin-top: 1%;
+        }
+    }
+
+    .profile-image {
+        margin: 2% auto;
+    }
+
+    .image-btn {
+        top: 65%;
+        right: 47.1%;
+    }
+
+    .input-profile {
+        width: 20%;
+        margin-top: 0.5%;
+
+        input {
+            width: 120%;
+            font-size: 18px;
+            padding: 0.8% 0;
+            padding-left: 10px;
+        }
+    } 
+}

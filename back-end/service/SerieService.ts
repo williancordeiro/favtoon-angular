@@ -16,6 +16,10 @@ export class SerieService {
         });
     }
 
+    getImageSerie(serie: any) {
+        return pb.files.getURL(serie, serie.image);
+    }
+
     updateSerie(id: string, serieData: any) {
         return pb.collection('series').update(id, serieData);
     }

@@ -1,21 +1,25 @@
 <div class="main">
     <div class="search-bar-container">
         <input class="search-bar" type="text" placeholder="Search..." />
-    </div>
-        
-    
+    </div>    
 
     <div *ngIf="errorMessage" class="warning">{{ errorMessage }}</div>
+    
+    <div class="serie-container">
+        <div class="serie" *ngFor="let serie of series">
+            <button class="serie-btn" (click)="handleSerie(serie)">
+                <img 
+                    *ngIf="serie.image" 
+                    [src]="service.getImageSerie(serie)" 
+                    alt="{{ serie.title }} image" 
+                    class="serie-img"
+                >
+                <span class="serie-title">{{ serie.title }}</span>
+            </button>
+        </div>
+    </div>
 
-    <ul>
-        <li *ngFor="let serie of series">
-            <strong>{{ serie.title }}</strong> - {{ serie.year }}<br>
-            <!-- <img *ngIf="serie.image" [src]="getSerieImageUrl(serie)" alt="Serie image" width="120"> -->
-            <span *ngIf="!serie.image">Sem imagem</span>
-        </li>
-    </ul>
-
-    <div>
+    <div class="fab-container">
         <button class="fab-button" (click)="handleAdd()">+</button>
     </div>
 </div>

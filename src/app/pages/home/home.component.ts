@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent {
   private router: Router;
-  private service: SerieService;
+  service: SerieService;
 
   series: any[] = [];
   errorMessage: string = '';
@@ -29,6 +29,19 @@ export class HomeComponent {
 
   ngOnInit() {
     this.loadSeries();
+  }
+
+  slugify(title: string): string {
+    return title
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+      .replace(/[^a-z0-9]+/g, '-') // troca não alfanuméricos por hífen
+      .replace(/(^-|-$)+/g, ''); // remove hífens do início/fim
+  }
+
+  handleSerie(serie: any) {
+    const slug = this.slugify(serie.title);
+    this.router.navigate(['/serie', slug]);
   }
 
   loadSeries() {

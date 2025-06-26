@@ -256,6 +256,12 @@ body {
     }
 }
 
+@media (min-width: 426px) and (max-width: 768px) {
+    .footer {
+        margin-top: 10%;
+    }
+}
+
 @media (min-width: 769px) {
     .footer {
         position: relative;

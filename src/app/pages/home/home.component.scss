@@ -1,3 +1,8 @@
+.main {
+  position: relative;
+  min-height: 100vh;
+}
+
 .search-bar-container {
   display: flex;
   align-items: center;
@@ -17,10 +22,54 @@
   }
 }
 
+.serie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.serie {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px auto 0 auto;
+}
+
+.serie-btn {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 3%;
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  border-radius: 9px;
+  text-align: start;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    object-fit: contain;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+  }
+
+  .serie-title {
+    padding: 10px;
+    font-size: 20px;
+    color: var(--secondary);
+    text-align: justify;
+  }
+
+}
+
 .fab-button {
     position: absolute;
-    bottom: 16%;
+    bottom: -20%;
     right: 5%;
+    z-index: 9999;
     background-color: var(--success);
     font-size: 36px;
     color: var(--secondary);
@@ -41,14 +90,53 @@
 
 @media (max-width: 320px) {
   .fab-button {
-    bottom: 25%;
+    bottom: -18%;
     right: 5%;
   }   
 }
 
-@media (min-width: 420px) {
+@media (min-width: 321px) and (max-width: 375px) {
   .fab-button {
-    bottom: 10%;
+    bottom: -21%;
     right: 5%;
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .serie-btn {
+    width: 90%;
+  }
+
+  .fab-button {
+    bottom: -27%;
+    right: 3%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .search-bar {
+    width: 90%;
+  }
+
+  .serie-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .serie {
+    width: 48%;
+    max-width: none;
+    margin: 0 0 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .fab-button {
+    bottom: -2%;
+    right: 2%;
   }
 }
