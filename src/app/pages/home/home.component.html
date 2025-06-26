@@ -1,6 +1,21 @@
 <div class="main">
     <div class="search-bar-container">
-        <input class="search-bar" type="text" placeholder="Search..." />
+        <form [formGroup]="searchForm">
+            <input 
+                class="search-bar" 
+                type="text" 
+                placeholder="Search. . ." 
+                formControlName="searchTerm"
+            />
+            <button 
+                *ngIf="searchTerm" 
+                class="clear-search-btn" 
+                (click)="clearSearch()"
+                type="button"
+            >
+                ✕
+            </button>
+        </form>
     </div>    
 
     <div *ngIf="errorMessage" class="warning">{{ errorMessage }}</div>
@@ -16,6 +31,11 @@
                 >
                 <span class="serie-title">{{ serie.title }}</span>
             </button>
+        </div>
+
+        <div *ngIf="series.length === 0 && !errorMessage" class="no-results">
+            <p *ngIf="searchTerm">No series found for "{{ searchTerm }}"</p>
+            <p *ngIf="!searchTerm">No series available. Add your first series!</p>
         </div>
     </div>
 

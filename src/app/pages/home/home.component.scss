@@ -7,7 +7,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 10px 20px;
+  width: 100%;
+  box-sizing: border-box;
+
+  form {
+    width: 100%;
+    //max-width: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .search-bar {
@@ -15,10 +25,46 @@
   border: none;
   font-size: 16px;
   border-bottom: 2px solid var(--grey-20);
+  padding: 5px 0;
+  padding-right: 35px;
+  background: transparent;
 
   &:focus {
     outline: none;
     border-color: var(--primary);
+  }
+
+  &::placeholder {
+    color: var(--grey-40);
+  }
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--grey-40);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: var(--grey-20);
+    color: var(--primary);
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 
@@ -93,6 +139,30 @@
     }
 }
 
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--grey-40);
+  font-size: 18px;
+  
+  p {
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: var(--warning);
+  padding: 15px;
+  border-radius: 9px;
+  border: 2px solid var(--warning);
+  margin: 10px auto;
+  text-align: center;
+  font-weight: 500;
+  max-width: 500px;
+}
+
 @media (max-width: 320px) {
   .serie-btn {
     width: 95%;
@@ -114,8 +184,8 @@
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .search-bar {
-    width: 90%;
+  .search-bar-container {
+    padding: 5px 30px;
   }
 
   .serie-btn {
@@ -128,9 +198,12 @@
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  .search-bar-container {
+    padding: 5px 40px;
 
-  .search-bar {
-    width: 90%;
+    form {
+      width: 90%;
+    }
   }
 
   .serie-container {
@@ -156,8 +229,11 @@
 }
 
 @media (min-width: 1025px) {
-  .search-bar {
-    width: 80%;
-  }
+  .search-bar-container {
+    padding: 5px 50px;
 
+    form {
+      width: 80%;
+    }
+  }
 }

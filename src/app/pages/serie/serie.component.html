@@ -49,14 +49,16 @@
 
         <div class="field-group">
           <label for="year">Year:</label>
-          <input 
+          <select 
             id="year"
-            type="number" 
             formControlName="year"
             class="form-input"
             placeholder="Release year">
+            <option value="" disabled>Select year...</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
           <div *ngIf="serieForm.get('year')?.invalid && serieForm.get('year')?.touched" class="error-text">
-            Year is required and must be valid
+            Year is required
           </div>
         </div>
 

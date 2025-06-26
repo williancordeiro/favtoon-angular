@@ -25,6 +25,7 @@ export class SerieComponent implements OnInit {
     seasons: ''
   };
   
+  years: number[] = [];
   isEditing = false;
   selectedFile: File | null = null;
   imagePreviewUrl: string = '';
@@ -38,12 +39,23 @@ export class SerieComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.initForm();
+    this.generateYears();
+  }
+
+  generateYears() {
+    const currentYear = new Date().getFullYear();
+    const startYear = 1980;
+    
+    this.years = [];
+    for (let year = currentYear; year >= startYear; year--) {
+      this.years.push(year);
+    }
   }
 
   initForm() {
     this.serieForm = this.fb.group({
       title: [{value: '', disabled: true}, [Validators.required]],
-      year: [{value: '', disabled: true}, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+      year: [{value: '', disabled: true}, [Validators.required]],
       genre: [{value: '', disabled: true}, [Validators.required]],
       seasons: [{value: '', disabled: true}, [Validators.required, Validators.min(1)]],
       synopsis: [{value: '', disabled: true}]
