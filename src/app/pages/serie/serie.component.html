@@ -93,19 +93,19 @@
     <div class="action-buttons">
       <button 
         *ngIf="!isEditing" 
-        class="btn-edit" 
+        class="btn primary" 
         (click)="toggleEdit()">
         Edit Serie
       </button>
       
       <div *ngIf="isEditing" class="edit-buttons">
         <button 
-          class="btn-cancel" 
+          class="btn cancel" 
           (click)="toggleEdit()">
           Cancel
         </button>
         <button 
-          class="btn-save" 
+          class="btn success" 
           (click)="saveSerie()">
           Save
         </button>

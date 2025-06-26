@@ -23,6 +23,7 @@
 }
 
 .serie-container {
+  //position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,11 +66,15 @@
 
 }
 
+.fab-container {
+  position: absolute;
+  bottom: 5px;
+  right: 13px;
+  z-index: 20;
+}
+
 .fab-button {
-    position: absolute;
-    bottom: -20%;
-    right: 5%;
-    z-index: 9999;
+    pointer-events: auto;
     background-color: var(--success);
     font-size: 36px;
     color: var(--secondary);
@@ -89,27 +94,36 @@
 }
 
 @media (max-width: 320px) {
-  .fab-button {
-    bottom: -18%;
-    right: 5%;
-  }   
+  .serie-btn {
+    width: 95%;
+
+    .serie-title {
+      font-size: 16px;
+    }
+  }
 }
 
 @media (min-width: 321px) and (max-width: 375px) {
-  .fab-button {
-    bottom: -21%;
-    right: 5%;
+  .serie-btn {
+    width: 95%;
+
+    .serie-title {
+      font-size: 18px;
+    }
   }
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .serie-btn {
+  .search-bar {
     width: 90%;
   }
 
-  .fab-button {
-    bottom: -27%;
-    right: 3%;
+  .serie-btn {
+    width: 100%;
+
+    .serie-title {
+      font-size: 21px;
+    }
   }
 }
 
@@ -139,4 +153,11 @@
     bottom: -2%;
     right: 2%;
   }
+}
+
+@media (min-width: 1025px) {
+  .search-bar {
+    width: 80%;
+  }
+
 }

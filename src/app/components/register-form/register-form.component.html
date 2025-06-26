@@ -47,7 +47,7 @@
     <div *ngIf="form.get('password')?.errors?.['pattern'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="warning">
       <span>
         <ul>
-            <li>Password must be at least 6 characters long.</li>
+            <li>Password must be at least 8 characters long.</li>
             <li>Must contain at least one uppercase letter.</li>
             <li>Must contain at least one lowercase letter.</li>
             <li>Must contain at least one number.</li>
@@ -58,17 +58,17 @@
 
   <div class="form-group">
     <input
-      formControlName="confirmPassword"
+      formControlName="passwordConfirm"
       type="password"
       id="confirmPass"
       placeholder="Confirm Password..."
-      [ngClass]="{ 'invalid-input': (form.get('confirmPassword')?.invalid && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)) || (form.errors?.['notMatching'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)) }"
+      [ngClass]="{ 'invalid-input': (form.get('passwordConfirm')?.invalid && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)) || (form.errors?.['notMatching'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)) }"
       required
     >
-    <div *ngIf="form.get('confirmPassword')?.errors?.['required'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)" class="warning">
+    <div *ngIf="form.get('passwordConfirm')?.errors?.['required'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)" class="warning">
       Confirm password is required.
     </div>
-    <div *ngIf="form.errors?.['notMatching'] && (form.get('confirmPassword')?.dirty || form.get('confirmPassword')?.touched)" class="warning">
+    <div *ngIf="form.errors?.['notMatching'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)" class="warning">
       Passwords do not match.
     </div>
   </div>

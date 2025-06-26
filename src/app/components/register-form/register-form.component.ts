@@ -33,18 +33,18 @@ export class RegisterFormComponent {
       ]],
       password: ['', [
         Validators.required,
-        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{6,}$/)
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)
       ]],
-      confirmPassword: ['', Validators.required]
+      passwordConfirm: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(group: FormGroup) {
     const passwordControl = group.get('password');
-    const confirmPasswordControl = group.get('confirmPassword');
+    const passwordConfirmControl = group.get('passwordConfirm');
     const password = passwordControl ? passwordControl.value : '';
-    const confirmPassword = confirmPasswordControl ? confirmPasswordControl.value : '';
-    return password === confirmPassword ? null : { notMatching: true };
+    const passwordConfirm = passwordConfirmControl ? passwordConfirmControl.value : '';
+    return password === passwordConfirm ? null : { notMatching: true };
   }
 
   onSubmit() {
@@ -53,23 +53,18 @@ export class RegisterFormComponent {
       return;
     }
 
-    const { name, email, password, confirmPassword } = this.form.value;
+    let { email, password, passwordConfirm, name, username } = this.form.value;
+    let randomUsername = Math.floor(Math.random() * 1000000);
+    username = `@${name.toLowerCase()}${randomUsername.toString().padStart(6, '0')}`
+    //console.log({ email, password, passwordConfirm, name, username });
 
     this.service.getUserByEmail(email).then((result: any) => {
-      // PocketBase retorna um objeto com items (array de usuários encontrados)
       if (result && result.items && result.items.length > 0) {
         this.errorMessage = 'Email already exists. Please use a different email.';
         return;
       }
 
-      const newUser = {
-        name: name,
-        email: email,
-        password: password,
-        passwordConfirm: confirmPassword
-      }
-
-      this.service.createUser(newUser).then(() => {
+      this.service.createUser(email, password, passwordConfirm, name, username).then(() => {
         this.router.navigate(['/login']);
       }).catch((err: any) => {
         this.errorMessage = 'An error occurred while creating the user. Please try again later.';

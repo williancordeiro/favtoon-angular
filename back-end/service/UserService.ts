@@ -2,8 +2,20 @@ import { pb } from './PocketBaseService';
 
 export class UserService {
 
-    createUser(user: any) {
-        return pb.collection('users').create(user);
+    createUser = async (email: string, password: string, passwordConfirm: string, name: string, username: string) => {
+        try {
+            const user = await pb.collection('users').create({
+                email,
+                password,
+                passwordConfirm,
+                name,
+                username
+            });
+            return user;
+        } catch (error: any) {
+            console.error('Error creating user:', error.response?.data || error);
+            throw error;
+        }
     }
 
     getCurrentUser() {

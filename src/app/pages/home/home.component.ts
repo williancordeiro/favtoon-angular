@@ -34,9 +34,9 @@ export class HomeComponent {
   slugify(title: string): string {
     return title
       .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
-      .replace(/[^a-z0-9]+/g, '-') // troca não alfanuméricos por hífen
-      .replace(/(^-|-$)+/g, ''); // remove hífens do início/fim
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
   }
 
   handleSerie(serie: any) {
@@ -52,10 +52,10 @@ export class HomeComponent {
           this.series = result.items;
         }).catch((error: any) => {
           console.error('Error loading series:', error);
-          this.errorMessage = 'Erro ao carregar séries. Por favor, tente novamente mais tarde.';
+          this.errorMessage = 'Error loading series. Please try again later.';
         });
     } else {
-      this.errorMessage = 'Usuário não autenticado.';
+      this.errorMessage = 'User not authenticated. Please log in.';
     }
   }
 }

@@ -12,9 +12,11 @@
     justify-content: center;
     width: 100%;
     margin-top: 5%;
+    margin-bottom: 10%;
 }
 
 .profile-image {
+    position: relative;
     background-color: var(--grey);
     width: 200px;
     height: 200px;
@@ -31,10 +33,14 @@
     }
 }
 
-.image-btn {
+.btn-container {
     position: absolute;
-    top: 57%;
-    right: 37%;
+    bottom: 1px;
+    right: 40px;
+}
+
+.image-btn {
+    pointer-events: auto;
     background-color: var(--success);
     color: var(--secondary);
     width: 20px;
@@ -97,14 +103,14 @@
 
 @media (max-width: 320px) {
   .image-btn {
-    top: 54.5%;
+    bottom: 11.2%;
     right: 32.5%;
   }   
 }
 
 @media (min-width: 321px) and (max-width: 375px) {
   .image-btn {
-    top: 55.5%;
+    bottom: 9.2%;
     right: 35%;
   }   
 }
