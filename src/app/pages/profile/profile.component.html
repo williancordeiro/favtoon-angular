@@ -1,1 +1,47 @@
-<h1>Profile</h1>
+<div class="profile" [formGroup]="profileForm">
+    <h2 class="title primary">Profile</h2>
+
+    <div class="profile-image">
+        <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Avatar do usuário">
+    </div>
+    <button class="image-btn">&#10009;</button>   
+
+    <div class="input-profile">
+        <input 
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Name"
+            formControlName="name"
+        >
+        <div class="divisor"></div>
+        <button (click)="startEdit('name')">&#9998;</button>
+    </div>
+
+    <div class="input-profile">
+        <input 
+            type="text"
+            id="username"
+            name="username"
+            placeholder="@username"
+            formControlName="username"
+        >
+        <div class="divisor"></div>
+        <button (click)="startEdit('username')">&#9998;</button>
+    </div>
+
+    <div class="input-profile">
+        <input 
+            type="password"
+            id="password"
+            name="password"
+            placeholder="• • • • • •"
+            [disabled]="true"    
+        >
+        <div class="divisor"></div>
+        <button disabled>&#9998;</button>
+    </div>
+
+    <button class="btn success" *ngIf="isEditing" (click)="saveEdit()">Save</button>
+    <button class="btn danger" *ngIf="!isEditing" (click)="logout()">Exit</button>
+</div>

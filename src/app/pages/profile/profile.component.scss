@@ -1,0 +1,131 @@
+:host {
+    .btn {
+        width: 85%;
+        font-size: 26px;
+        margin-top: 2%;
+    }
+}
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.profile-image {
+    background-color: var(--grey);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 10% auto;
+    border: 3px solid var(--primary);
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: contain;
+        image-rendering: auto;
+    }
+}
+
+.image-btn {
+    position: absolute;
+    top: 57%;
+    right: 37%;
+    background-color: var(--success);
+    color: var(--secondary);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--success-20);
+        color: var(--secondary);
+    }
+}
+
+.input-profile {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    border: 3px solid var(--primary);
+    border-radius: 9px;
+    margin-top: 2%;
+    margin: 1.5% auto;
+
+    input {
+        border: none;
+        width: 85%;
+        font-size: 26px;
+        padding: 2% 0;
+        padding-left: 10px;
+        outline: none;
+        border-bottom-left-radius: 9px;
+        border-start-start-radius: 9px;
+        
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .divisor {
+        border: 2px solid var(--primary);
+    }
+
+    button {
+        width: 15%;
+        border: none;
+        border-end-end-radius: 9px;
+        border-top-right-radius: 9px;
+        background-color: var(--secondary);
+        font-size: 28px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: var(--primary);
+    }
+}
+
+@media (max-width: 320px) {
+  .image-btn {
+    top: 54.5%;
+    right: 32.5%;
+  }   
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  .image-btn {
+    top: 55.5%;
+    right: 35%;
+  }   
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+
+    :host {
+        .btn {
+            width: 60%;
+            padding: 2% 0;
+            font-size: 26px;
+            margin-top: 2%;
+        }
+    }
+
+    .image-btn {
+        top: 65%;
+        right: 43%;
+    }
+
+    .input-profile {
+        width: 60%;
+    } 
+}
