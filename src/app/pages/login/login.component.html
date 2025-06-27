@@ -3,8 +3,7 @@
     <app-login-form 
         (loginSuccess)="onLoginSuccess($event)"
         (loginError)="onLoginError($event)" />
-    
-    <!-- Exibir mensagens de erro se necessário -->
+
     <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
     </div>

@@ -18,7 +18,6 @@ export class RegisterComponent {
   constructor(private router: Router) {}
 
   onRegisterSuccess(user: any) {
-    console.log('Registration successful:', user);
     this.router.navigate(['/login']);
   }
 

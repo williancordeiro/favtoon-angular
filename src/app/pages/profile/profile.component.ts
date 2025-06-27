@@ -64,7 +64,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     try {
       this.userService.logout();
       this.logoutRequested.emit();
-      // Fallback para navegação direta caso o componente pai não gerencie
       this.router.navigate(['/login']);
     } catch (error: any) {
       console.error('Logout error:', error);
@@ -201,7 +200,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   changePassword() {
     this.passwordChangeRequested.emit();
-    // Fallback para navegação direta caso o componente pai não gerencie
     this.router.navigate(['/reset-password']);
   }
 

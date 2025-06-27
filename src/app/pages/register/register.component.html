@@ -4,7 +4,6 @@
         (registerSuccess)="onRegisterSuccess($event)"
         (registerError)="onRegisterError($event)" />
     
-    <!-- Exibir mensagens de erro se necessário -->
     <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
     </div>

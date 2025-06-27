@@ -56,7 +56,6 @@ export class AddSerieFormComponent {
         const img = new Image();
         img.onload = () => {
           const aspectRatio = img.width / img.height;
-          // 16:9 = 1.777...
           if (Math.abs(aspectRatio - 16 / 9) > 0.01) {
             this.errorMessage = 'Only images with 16:9 aspect ratio are allowed.';
             this.selectedImage = null;

@@ -83,7 +83,6 @@ export class SerieComponent implements OnInit {
           if (foundSerie) {
             this.serie = { ...foundSerie };
             this.imagePreviewUrl = this.serieService.getImageSerie(foundSerie);
-            // Atualizar o formulário com os dados da série
             this.serieForm.patchValue({
               title: foundSerie.title,
               year: foundSerie.year,
@@ -115,12 +114,9 @@ export class SerieComponent implements OnInit {
     this.clearMessages();
     
     if (this.isEditing) {
-      // Habilitar todos os campos para edição
       this.serieForm.enable();
     } else {
-      // Desabilitar todos os campos e restaurar valores originais
       this.serieForm.disable();
-      // Restaurar valores originais se cancelar
       this.serieForm.patchValue({
         title: this.serie.title,
         year: this.serie.year,
@@ -197,8 +193,7 @@ export class SerieComponent implements OnInit {
   async deleteSerie() {
     try {
       this.clearMessages();
-      
-      // Confirmar antes de deletar
+
       const confirmed = confirm(`Are you sure you want to delete "${this.serie.title}"? This action cannot be undone.`);
       
       if (!confirmed) {
@@ -208,8 +203,7 @@ export class SerieComponent implements OnInit {
       await this.serieService.deleteSerie(this.serie.id);
       
       this.successMessage = 'Serie deleted successfully!';
-      
-      // Redirecionar para a página inicial após 2 segundos
+
       setTimeout(() => {
         this.router.navigate(['/index/home']);
       }, 2000);

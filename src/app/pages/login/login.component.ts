@@ -20,7 +20,6 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   onLoginSuccess(authData: any) {
-    console.log('Login successful:', authData);
     this.router.navigate(['/index/home']);
   }
 
