@@ -26,6 +26,27 @@ export class UserService {
         return pb.collection('users').getList(1, 10, { filter: `email="${email}"` });
     }
 
+    async checkUsernameAvailability(username: string, currentUserId?: string) {
+        try {
+            // Se não há username, considere como disponível
+            if (!username || username.trim() === '') {
+                return true;
+            }
+
+            const filter = currentUserId 
+                ? `username="${username}" && id!="${currentUserId}"`
+                : `username="${username}"`;
+            
+            const result = await pb.collection('users').getList(1, 1, { filter });
+            
+            return result.totalItems === 0; // true se disponível, false se já existe
+        } catch (error: any) {
+            console.error('Error checking username availability:', error);
+            // Em caso de erro, assumir que não está disponível por segurança
+            return false;
+        }
+    }
+
     getUserIcon(user: any) {
         return pb.files.getURL(user, user.avatar);
     }

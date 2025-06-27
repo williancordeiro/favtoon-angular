@@ -20,16 +20,24 @@
         <button (click)="startEdit('name')">&#9998;</button>
     </div>
 
-    <div class="input-profile">
+    <div class="input-profile" [ngClass]="{'error': usernameValidationClass === 'error', 'success': usernameValidationClass === 'success'}">
         <input 
             type="text"
             id="username"
             name="username"
             placeholder="@username"
             formControlName="username"
+            (input)="onUsernameInput($event)"
+            [class.error]="usernameValidationClass === 'error'"
+            [class.success]="usernameValidationClass === 'success'"
         >
-        <div class="divisor"></div>
-        <button (click)="startEdit('username')">&#9998;</button>
+        <div class="divisor" [ngClass]="{'error': usernameValidationClass === 'error', 'success': usernameValidationClass === 'success'}"></div>
+        <button (click)="startEdit('username')" [ngClass]="{'error': usernameValidationClass === 'error', 'success': usernameValidationClass === 'success'}">&#9998;</button>
+    </div>
+    <div *ngIf="usernameValidationMessage && editingField === 'username'" 
+         class="validation-message" 
+         [ngClass]="{'error-message': usernameValidationClass === 'error', 'success-message': usernameValidationClass === 'success'}">
+        {{ usernameValidationMessage }}
     </div>
 
     <div class="input-profile">
@@ -44,6 +52,9 @@
         <button disabled>&#9998;</button>
     </div>
 
-    <button class="btn success" *ngIf="isEditing" (click)="saveEdit()">Save</button>
+    <div *ngIf="isEditing" class="edit-buttons">
+        <button class="btn cancel" (click)="cancelEdit()">Cancel</button>
+        <button class="btn success" (click)="saveEdit()">Save</button>
+    </div>
     <button class="btn danger" *ngIf="!isEditing" (click)="logout()">Exit</button>
 </div>
