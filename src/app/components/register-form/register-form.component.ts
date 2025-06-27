@@ -3,7 +3,6 @@ import { Form, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule,
 import { UserService } from '../../../../back-end/service/UserService';
 import { Router } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
-import { User } from '../../../../back-end/User';
 
 @Component({
   selector: 'app-register-form',
