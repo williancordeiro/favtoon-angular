@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AddSerieComponent } from './pages/add-serie/add-serie.component';
 import { SerieComponent } from './pages/serie/serie.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -20,5 +21,6 @@ export const routes: Routes = [
         ]
     },
     { path: 'add', component: AddSerieComponent },
-    { path: 'serie/:slug', component: SerieComponent}
+    { path: 'serie/:slug', component: SerieComponent},
+    { path: 'reset-password', component: ResetPasswordComponent}
 ];

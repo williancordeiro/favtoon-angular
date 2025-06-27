@@ -3,6 +3,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 import { UserService } from '../../../../back-end/service/UserService';
 import { CommonModule, NgClass } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { pb } from '../../../../back-end/service/PocketBaseService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +22,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   usernameValidationMessage: string = '';
   usernameValidationClass: string = '';
   private usernameCheckTimeout: any;
+  isCheckingUsername: boolean = false;
+  lastCheckedUsername: string | undefined;
+  router: Router;
 
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(private userService: UserService, private fb: FormBuilder, router: Router) {
     this.profileForm = this.fb.group({
       name: [{ value: '', disabled: true }],
       username: [{ value: '', disabled: true }]
     });
+
+    this.router = router;
   }
 
   ngOnInit() {
@@ -39,12 +46,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
     });
   }
 
+  logout() {
+    try {
+      this.userService.logout();
+      window.location.href = '/login';
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      alert('Logout failed. Please try again.');
+    }
+  }
+
   startEdit(field: string) {
     this.isEditing = true;
     this.editingField = field;
     this.profileForm.get(field)?.enable();
-    
-    // Limpar mensagens de validação ao começar a editar
+
     if (field === 'username') {
       this.usernameValidationMessage = '';
       this.usernameValidationClass = '';
@@ -55,23 +71,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (this.editingField) {
       let value = this.profileForm.get(this.editingField)?.value;
 
-      // Se estiver editando o username, garante que começa com "@"
       if (this.editingField === 'username') {
-        if (value && !value.startsWith('@')) {
-          value = '@' + value;
+        if (value) {
+          value = value.toLowerCase();
+          if (!value.startsWith('@')) {
+            value = '@' + value;
+          }
           this.profileForm.get('username')?.setValue(value, { emitEvent: false });
         }
 
-        // Verificar se o username já existe
-        const isAvailable = await this.userService.checkUsernameAvailability(value, this.user.id);
-        
-        if (!isAvailable) {
-          this.usernameValidationMessage = 'This username is already taken';
-          this.usernameValidationClass = 'error';
-          return; // Não prosseguir com a atualização
-        } else {
-          this.usernameValidationMessage = 'Username is available';
-          this.usernameValidationClass = 'success';
+        await this.checkUsername(value);
+        if (this.usernameValidationClass === 'error') {
+          return;
         }
       }
 
@@ -87,7 +98,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
           const currentField = this.editingField;
           this.editingField = null;
           
-          // Limpar mensagens de validação após sucesso
           if (currentField === 'username') {
             this.usernameValidationMessage = '';
             this.usernameValidationClass = '';
@@ -105,15 +115,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   cancelEdit() {
     if (this.editingField) {
-      // Restaurar o valor original do campo
       this.profileForm.get(this.editingField)?.setValue(this.user[this.editingField]);
-      // Desabilitar o campo
       this.profileForm.get(this.editingField)?.disable();
-      // Resetar o estado de edição
       this.isEditing = false;
       this.editingField = null;
       
-      // Limpar mensagens de validação
       this.usernameValidationMessage = '';
       this.usernameValidationClass = '';
     }
@@ -123,62 +129,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (this.editingField === 'username') {
       const target = event.target as HTMLInputElement;
       
-      // Limpar timeout anterior
       if (this.usernameCheckTimeout) {
         clearTimeout(this.usernameCheckTimeout);
       }
-      
-      // Definir novo timeout para evitar muitas consultas
+
       this.usernameCheckTimeout = setTimeout(() => {
-        this.checkUsernameAvailability(target.value);
-      }, 500); // Aguarda 500ms após o usuário parar de digitar
-    }
-  }
-
-  async checkUsernameAvailability(username: string) {
-    if (!username) {
-      this.usernameValidationMessage = '';
-      this.usernameValidationClass = '';
-      return;
-    }
-
-    // Adicionar @ se não tiver
-    let formattedUsername = username;
-    if (!formattedUsername.startsWith('@')) {
-      formattedUsername = '@' + formattedUsername;
-    }
-
-    // Se o username é igual ao atual do usuário, não mostra validação
-    if (formattedUsername === this.user.username) {
-      this.usernameValidationMessage = '';
-      this.usernameValidationClass = '';
-      return;
-    }
-
-    try {
-      const isAvailable = await this.userService.checkUsernameAvailability(formattedUsername, this.user.id);
-      
-      if (!isAvailable) {
-        this.usernameValidationMessage = 'This username is already taken';
-        this.usernameValidationClass = 'error';
-      } else {
-        this.usernameValidationMessage = 'Username is available';
-        this.usernameValidationClass = 'success';
-      }
-    } catch (error) {
-      console.error('Error checking username availability:', error);
-      this.usernameValidationMessage = 'Error checking username availability';
-      this.usernameValidationClass = 'error';
-    }
-  }
-
-  logout() {
-    try {
-      this.userService.logout();
-      window.location.href = '/login';
-    } catch (error: any) {
-      console.error('Logout error:', error);
-      alert('Logout failed. Please try again.');
+        this.checkUsername(target.value);
+      }, 500);
     }
   }
 
@@ -187,4 +144,46 @@ export class ProfileComponent implements OnInit, OnDestroy {
       clearTimeout(this.usernameCheckTimeout);
     }
   }
+
+  async checkUsername(username: string) {
+    if (!username || username.length < 3) {
+      this.usernameValidationMessage = 'Username must be at least 3 characters';
+      this.usernameValidationClass = 'error';
+      return;
+    }
+
+    username = username.trim().toLowerCase();
+
+    if (!username.startsWith('@')) {
+      username = '@' + username;
+    }
+
+    this.isCheckingUsername = true;
+    this.lastCheckedUsername = username;
+
+    try {
+      const currentUserId = pb.authStore.model?.id;
+      const isAvailable = await this.userService.checkUsernameAvailability(username, currentUserId);
+
+      if (this.lastCheckedUsername !== username) return;
+
+      this.usernameValidationMessage = isAvailable 
+          ? 'Username is available' 
+          : 'Username already exists';
+      this.usernameValidationClass = isAvailable ? 'success' : 'error';
+    } catch (error) {
+      if (this.lastCheckedUsername !== username) return;
+
+      console.error('Validation error:', error);
+      this.usernameValidationMessage = 'Error during validation';
+      this.usernameValidationClass = 'error';
+    } finally {
+      this.isCheckingUsername = false;
+    }
+  }
+
+  chanchePassword() {
+    this.router.navigate(['/reset-password']);
+  }
+
 }

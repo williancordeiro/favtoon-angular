@@ -194,6 +194,32 @@ export class SerieComponent implements OnInit {
     }
   }
 
+  async deleteSerie() {
+    try {
+      this.clearMessages();
+      
+      // Confirmar antes de deletar
+      const confirmed = confirm(`Are you sure you want to delete "${this.serie.title}"? This action cannot be undone.`);
+      
+      if (!confirmed) {
+        return;
+      }
+
+      await this.serieService.deleteSerie(this.serie.id);
+      
+      this.successMessage = 'Serie deleted successfully!';
+      
+      // Redirecionar para a página inicial após 2 segundos
+      setTimeout(() => {
+        this.router.navigate(['/index/home']);
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error deleting serie:', error);
+      this.errorMessage = 'Error deleting serie. Please try again.';
+    }
+  }
+
   clearMessages() {
     this.errorMessage = '';
     this.successMessage = '';

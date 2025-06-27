@@ -219,6 +219,68 @@ select.form-input {
   margin-top: 30px;
 }
 
+.view-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 15px;
+}
+
+.btn {
+  width: 100%;
+  padding: 3%;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary);
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &.primary {
+    background: var(--primary);
+
+    &:hover {
+      background: var(--primary-20);
+      font-size: 24px;
+    }
+  }
+
+  &.danger {
+    background: var(--danger);
+
+    &:hover {
+      background: rgba(220, 53, 69, 0.8);
+      font-size: 24px;
+    }
+  }
+
+  &.success {
+    background: var(--success);
+
+    &:hover {
+      background: var(--success-20);
+      font-size: 22px;
+    }
+  }
+
+  &.cancel {
+    background: var(--grey-40);
+
+    &:hover {
+      background: var(--grey-20);
+      font-size: 22px;
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
 .btn-edit {
   width: 100%;
   max-width: 400px;
@@ -300,12 +362,6 @@ select.form-input.ng-invalid.ng-touched {
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-.btn[disabled] {
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 @media (min-width: 426px) and (max-width: 768px) {
   .serie-container {
     width: 95%;
@@ -332,13 +388,15 @@ select.form-input.ng-invalid.ng-touched {
     margin: 0 auto;
   }
 
-  .edit-buttons {
+  .edit-buttons,
+  .view-buttons {
     flex-direction: column;
     max-width: 400px;
     gap: 15px;
   }
 
-  .btn-edit {
+  .btn-edit,
+  .btn {
     width: 100%;
     max-width: 400px;
     padding: 2%;

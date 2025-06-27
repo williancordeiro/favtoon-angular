@@ -55,7 +55,6 @@ export class RegisterFormComponent {
     let { email, password, passwordConfirm, name, username } = this.form.value;
     let randomUsername = Math.floor(Math.random() * 1000000);
     username = `@${name.toLowerCase()}${randomUsername.toString().padStart(6, '0')}`
-    //console.log({ email, password, passwordConfirm, name, username });
 
     this.service.getUserByEmail(email).then((result: any) => {
       if (result && result.items && result.items.length > 0) {

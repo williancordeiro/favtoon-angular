@@ -26,25 +26,59 @@ export class UserService {
         return pb.collection('users').getList(1, 10, { filter: `email="${email}"` });
     }
 
-    async checkUsernameAvailability(username: string, currentUserId?: string) {
+    async checkUsernameAvailability(username: string, currentUserId?: string): Promise<boolean> {
         try {
-            // Se não há username, considere como disponível
-            if (!username || username.trim() === '') {
+            if (!username?.trim()) {
                 return true;
             }
 
-            const filter = currentUserId 
-                ? `username="${username}" && id!="${currentUserId}"`
-                : `username="${username}"`;
-            
-            const result = await pb.collection('users').getList(1, 1, { filter });
-            
-            return result.totalItems === 0; // true se disponível, false se já existe
+            username = username.trim().toLowerCase();
+
+            const conditions = [`username="${username}"`];
+            if (currentUserId) {
+                conditions.push(`id!="${currentUserId}"`);
+            }
+
+            const filter = conditions.join(' && ');
+            console.log('Checking Username:', username);
+            console.log('Active User ID:', currentUserId);
+            console.log('Filter Conditions:', filter);
+
+            await pb.collection('users').getFirstListItem(
+                conditions.join(' && '),
+                { requestKey: `username_check_${username}` }
+            );
+
+            return false;
+
         } catch (error: any) {
-            console.error('Error checking username availability:', error);
-            // Em caso de erro, assumir que não está disponível por segurança
+            if (error?.status === 404) {
+                return true;
+            }
+
+            console.error('Erro na verificação de username:', error);
             return false;
         }
+    }
+
+    async changeUserPassword(currentPassword: string, newPassword: string, confirmPassword: string) {
+        const currentUser = pb.authStore.model;
+        if (!currentUser) {
+            throw new Error('User not authenticated');
+        }
+
+        return pb.collection('users').update(currentUser['id'], {
+            email: currentUser['email'],
+            name: currentUser['name'],
+            username: currentUser['username'],
+            oldPassword: currentPassword,
+            password: newPassword,
+            passwordConfirm: confirmPassword
+        });
+    }
+
+    verifyCurrentPassword(email: string, password: string) {
+        return pb.collection('users').authWithPassword(email, password);
     }
 
     getUserIcon(user: any) {

@@ -216,6 +216,11 @@
     padding: 0 20px;
   }
 
+  .no-results {
+    padding: 60px 345px;
+    font-size: 21px;
+  }
+
   .serie {
     width: 48%;
     max-width: 450px;
@@ -251,6 +256,11 @@
     gap: 0;
   }
 
+  .no-results {
+    padding: 60px 507px;
+    font-size: 24px;
+  }
+
   .serie {
     width: 48%;
     max-width: 630px;
@@ -281,6 +291,11 @@
     gap: 0;
   }
 
+  .no-results {
+    padding: 60px 534px;
+    font-size: 24px;
+  }
+
   .serie {
     width: 48%;
     max-width: 655px;
@@ -309,6 +324,11 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0;
+  }
+
+  .no-results {
+    padding: 60px 1038px;
+    font-size: 28px;
   }
 
   .serie {

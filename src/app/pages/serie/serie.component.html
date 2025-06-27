@@ -101,12 +101,18 @@
       </div>
 
       <div class="action-buttons">
-        <button 
-          *ngIf="!isEditing" 
-          class="btn primary" 
-          (click)="toggleEdit()">
-          Edit Serie
-        </button>
+        <div *ngIf="!isEditing" class="view-buttons">
+          <button 
+            class="btn primary" 
+            (click)="toggleEdit()">
+            Edit Serie
+          </button>
+          <button 
+            class="btn danger" 
+            (click)="deleteSerie()">
+            Delete
+          </button>
+        </div>
         
         <div *ngIf="isEditing" class="edit-buttons">
           <button 
