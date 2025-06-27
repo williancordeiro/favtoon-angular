@@ -94,4 +94,8 @@ export class ResetPasswordComponent implements OnInit {
       this.isLoading = false;
     }
   }
+
+  goBack() {
+    this.router.navigate(['/index/home']);
+  }
 }
