@@ -13,7 +13,6 @@ export class UserService {
             });
             return user;
         } catch (error: any) {
-            console.error('Error creating user:', error.response?.data || error);
             throw error;
         }
     }
@@ -40,9 +39,6 @@ export class UserService {
             }
 
             const filter = conditions.join(' && ');
-            console.log('Checking Username:', username);
-            console.log('Active User ID:', currentUserId);
-            console.log('Filter Conditions:', filter);
 
             await pb.collection('users').getFirstListItem(
                 conditions.join(' && '),
@@ -56,7 +52,6 @@ export class UserService {
                 return true;
             }
 
-            console.error('Erro na verificação de username:', error);
             return false;
         }
     }
