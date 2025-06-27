@@ -77,6 +77,12 @@ export class UserService {
         });
     }
 
+    updateUserIcon(userId: string, file: File) {
+        return pb.collection('users').update(userId, {
+            avatar: file
+        });
+    }
+
     verifyCurrentPassword(email: string, password: string) {
         return pb.collection('users').authWithPassword(email, password);
     }

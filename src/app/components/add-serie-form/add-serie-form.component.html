@@ -1,5 +1,5 @@
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group warning" [innerHTML]="errorMessage"></div>
+    <div *ngIf="errorMessage" class="error-text" [innerHTML]="errorMessage"></div>
 
     <div class="form-group">
         <label for="image" id="imageLabel" class="btn primary">
@@ -32,7 +32,7 @@
             [ngClass]="{ 'invalid-input': form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched) }"
             required
         >
-        <div *ngIf="form.get('title')?.errors?.['required'] && (form.get('title')?.dirty || form.get('title')?.touched)" class="warning">
+        <div *ngIf="form.get('title')?.errors?.['required'] && (form.get('title')?.dirty || form.get('title')?.touched)" class="error-text">
             Title is required.
         </div>
     </div>
@@ -48,7 +48,7 @@
         >
             <option *ngFor="let year of years" [value]="year" >{{ year }}</option>
         </select>
-        <div *ngIf="form.get('year')?.errors?.['required'] && (form.get('year')?.dirty || form.get('year')?.touched)" class="warning">
+        <div *ngIf="form.get('year')?.errors?.['required'] && (form.get('year')?.dirty || form.get('year')?.touched)" class="error-text">
             Year is required.
         </div> 
     </div>
@@ -61,7 +61,7 @@
             placeholder="Genre. . ."
             [ngClass]="{ 'invalid-input': form.get('genre')?.invalid && (form.get('genre')?.dirty || form.get('genre')?.touched) }"
         >
-        <div *ngIf="form.get('genre')?.errors?.['required'] && (form.get('genre')?.dirty || form.get('genre')?.touched)" class="warning">
+        <div *ngIf="form.get('genre')?.errors?.['required'] && (form.get('genre')?.dirty || form.get('genre')?.touched)" class="error-text">
             Genre is required and must be a comma-separated list.
         </div>
     </div>
@@ -76,7 +76,7 @@
             placeholder="1"
             [ngClass]="{ 'invalid-input': form.get('seasons')?.invalid && (form.get('seasons')?.dirty || form.get('seasons')?.touched) }"
         >
-        <div *ngIf="form.get('seasons')?.errors?.['required'] && (form.get('seasons')?.dirty || form.get('seasons')?.touched)" class="warning">
+        <div *ngIf="form.get('seasons')?.errors?.['required'] && (form.get('seasons')?.dirty || form.get('seasons')?.touched)" class="error-text">
             Number of seasons is required and must be a positive integer.
         </div>
     </div>
@@ -89,7 +89,7 @@
             placeholder="Synopsis. . ."
             [ngClass]="{ 'invalid-input': form.get('synopsis')?.invalid && (form.get('synopsis')?.dirty || form.get('synopsis')?.touched) }"
         >
-        <div *ngIf="form.get('synopsis')?.errors?.['required'] && (form.get('synopsis')?.dirty || form.get('synopsis')?.touched)" class="warning">
+        <div *ngIf="form.get('synopsis')?.errors?.['required'] && (form.get('synopsis')?.dirty || form.get('synopsis')?.touched)" class="error-text">
             Synopsis is required.
         </div>
     </div>

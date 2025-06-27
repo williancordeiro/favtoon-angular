@@ -10,10 +10,10 @@
       [ngClass]="{ 'invalid-input': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched) }"
       required
     >
-    <div *ngIf="form.get('email')?.errors?.['required'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+    <div *ngIf="form.get('email')?.errors?.['required'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="error-text">
       Email is required.
     </div>
-    <div *ngIf="form.get('email')?.errors?.['email'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="warning">
+    <div *ngIf="form.get('email')?.errors?.['email'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="error-text">
       Invalid email format.
     </div>
   </div>
@@ -27,7 +27,7 @@
       [ngClass]="{ 'invalid-input': form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched) }"
       required
     >
-    <div *ngIf="form.get('password')?.errors?.['required'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="warning">
+    <div *ngIf="form.get('password')?.errors?.['required'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="error-text">
       Password is required.
     </div>
   </div>
