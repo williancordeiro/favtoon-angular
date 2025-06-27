@@ -207,19 +207,24 @@
   }
 
   .serie-container {
+    max-width: 940px;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+    padding: 0 20px;
   }
 
   .serie {
     width: 48%;
-    max-width: none;
-    margin: 0 0 20px 0;
-    display: flex;
-    justify-content: center;
+    max-width: 450px;
+    margin: 16px 0 0 0;
+  }
+
+  .serie-btn {
+    width: 100%;
+    margin-bottom: 16px;
   }
 
   .fab-button {
@@ -228,12 +233,62 @@
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 1025px) and (max-width: 1400px) {
   .search-bar-container {
     padding: 5px 50px;
 
     form {
       width: 80%;
     }
+  }
+
+  .serie-container {
+    max-width: 1400px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .serie {
+    width: 48%;
+    max-width: 455px;
+    margin: 16px 0 0 0;
+  }
+
+  .serie-btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1401px) {
+  .search-bar-container {
+    padding: 5px 60px;
+
+    form {
+      width: 70%;
+    }
+  }
+
+  .serie-container {
+    max-width: 1750px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .serie {
+    width: 48%;
+    max-width: 560px;
+    margin: 16px 0 0 0;
+  }
+
+  .serie-btn {
+    width: 100%;
+    margin-bottom: 20px;
   }
 }
