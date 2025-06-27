@@ -1,6 +1,14 @@
 <div class="container form-container">
     <h2 class="title">Login</h2>
-    <app-login-form />
+    <app-login-form 
+        (loginSuccess)="onLoginSuccess($event)"
+        (loginError)="onLoginError($event)" />
+    
+    <!-- Exibir mensagens de erro se necessário -->
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+    
     <div class="link">
         <p>Don't have an account? <a routerLink="/register">Register here</a></p>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { UserService } from '../../../../back-end/service/UserService';
 import { CommonModule, NgClass } from '@angular/common';
@@ -14,6 +14,11 @@ import { Router } from '@angular/router';
   providers: [UserService]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @Input() initialUser: any = null;
+  @Output() userUpdated = new EventEmitter<any>();
+  @Output() logoutRequested = new EventEmitter<void>();
+  @Output() passwordChangeRequested = new EventEmitter<void>();
+
   user: any = {};
   avatarUrl: string | undefined;
   isEditing: boolean = false;
@@ -36,20 +41,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userService.getCurrentUser().then((user: any) => {
-      this.user = user;
-      this.avatarUrl = this.userService.getUserIcon(user);
+    if (this.initialUser) {
+      this.user = this.initialUser;
+      this.avatarUrl = this.userService.getUserIcon(this.user);
       this.profileForm.patchValue({
-        name: user.name,
-        username: user.username
+        name: this.user.name,
+        username: this.user.username
       });
-    });
+    } else {
+      this.userService.getCurrentUser().then((user: any) => {
+        this.user = user;
+        this.avatarUrl = this.userService.getUserIcon(user);
+        this.profileForm.patchValue({
+          name: user.name,
+          username: user.username
+        });
+      });
+    }
   }
 
   logout() {
     try {
       this.userService.logout();
-      window.location.href = '/login';
+      this.logoutRequested.emit();
+      // Fallback para navegação direta caso o componente pai não gerencie
+      this.router.navigate(['/login']);
     } catch (error: any) {
       console.error('Logout error:', error);
       alert('Logout failed. Please try again.');
@@ -89,6 +105,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.userService.updateUser(this.user.id, { [this.editingField]: value })
         .then((updated: any) => {
           this.user = updated;
+          this.userUpdated.emit(updated);
           this.profileForm.patchValue({
             name: updated.name,
             username: updated.username
@@ -182,7 +199,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  chanchePassword() {
+  changePassword() {
+    this.passwordChangeRequested.emit();
+    // Fallback para navegação direta caso o componente pai não gerencie
     this.router.navigate(['/reset-password']);
   }
 

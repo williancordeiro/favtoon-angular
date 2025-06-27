@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Form, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../../back-end/service/UserService';
 import { Router } from '@angular/router';
@@ -12,6 +12,9 @@ import { CommonModule, NgClass } from '@angular/common';
   providers: [UserService]
 })
 export class RegisterFormComponent {
+
+  @Output() registerSuccess = new EventEmitter<any>();
+  @Output() registerError = new EventEmitter<string>();
 
   form: FormGroup;
   errorMessage: string = '';
@@ -49,6 +52,7 @@ export class RegisterFormComponent {
   onSubmit() {
     if (this.form.invalid) {
       this.errorMessage = 'Please fill out the form correctly.';
+      this.registerError.emit(this.errorMessage);
       return;
     }
 
@@ -59,19 +63,21 @@ export class RegisterFormComponent {
     this.service.getUserByEmail(email).then((result: any) => {
       if (result && result.items && result.items.length > 0) {
         this.errorMessage = 'Email already exists. Please use a different email.';
+        this.registerError.emit(this.errorMessage);
         return;
       }
 
-      this.service.createUser(email, password, passwordConfirm, name, username).then(() => {
-        this.router.navigate(['/login']);
+      this.service.createUser(email, password, passwordConfirm, name, username).then((user) => {
+        this.registerSuccess.emit(user);
       }).catch((err: any) => {
         this.errorMessage = 'An error occurred while creating the user. Please try again later.';
+        this.registerError.emit(this.errorMessage);
         console.error(err);
       });
     }).catch((error: any) => {
       this.errorMessage = 'An error occurred while checking the email. Please try again later.';
+      this.registerError.emit(this.errorMessage);
       console.error(error);
-      console.log('Error during email check:', error);
     });
   }
 }

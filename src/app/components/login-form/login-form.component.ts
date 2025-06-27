@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../../back-end/service/UserService';
@@ -15,6 +15,9 @@ import { pb } from '../../../../back-end/service/PocketBaseService';
   providers: [UserService]
 })
 export class LoginFormComponent implements OnInit {
+
+  @Output() loginSuccess = new EventEmitter<any>();
+  @Output() loginError = new EventEmitter<string>();
 
   form: FormGroup;
   errorMessage: string = '';
@@ -41,19 +44,23 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     if (this.form.invalid) {
       this.errorMessage = 'Please fill out all fields correctly.';
+      this.loginError.emit(this.errorMessage);
       return;
     }
 
     const { email, password } = this.form.value;
 
-    this.service.login(email, password).then(() => {
-      if (pb.authStore.isValid)
-          this.router.navigate(['/index/home']);
-      else
-          this.errorMessage = 'Login failed. Please check your credentials.';
+    this.service.login(email, password).then((authData) => {
+      if (pb.authStore.isValid) {
+        this.loginSuccess.emit(authData);
+      } else {
+        this.errorMessage = 'Login failed. Please check your credentials.';
+        this.loginError.emit(this.errorMessage);
+      }
     }).catch((error: any) => {
       console.error('Login error:', error);
       this.errorMessage = 'Login failed. Please check your credentials.';
+      this.loginError.emit(this.errorMessage);
     });
   }
 }
