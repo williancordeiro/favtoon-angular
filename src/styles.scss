@@ -406,7 +406,6 @@ select.form-input {
     }
 }
 
-// Botões fab
 .fab-container {
     position: absolute;
     bottom: 5px;
@@ -434,7 +433,7 @@ select.form-input {
     }
 }
 
-// Search bar
+
 .search-bar-container {
     display: flex;
     align-items: center;
@@ -497,4 +496,8 @@ select.form-input {
     &:focus {
         outline: none;
     }
+}
+
+@media (min-width: 768px) {
+
 }
