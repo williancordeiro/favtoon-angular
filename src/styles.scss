@@ -498,6 +498,9 @@ select.form-input {
     }
 }
 
-@media (min-width: 768px) {
-
+@media (min-width: 769px) {
+    .footer-main {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
