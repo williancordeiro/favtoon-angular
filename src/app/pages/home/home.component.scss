@@ -243,7 +243,7 @@
   }
 
   .serie-container {
-    max-width: 1400px;
+    max-width: 1300px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -253,7 +253,7 @@
 
   .serie {
     width: 48%;
-    max-width: 455px;
+    max-width: 630px;
     margin: 16px 0 0 0;
   }
 
@@ -263,7 +263,7 @@
   }
 }
 
-@media (min-width: 1401px) {
+@media (min-width: 1401px) and (max-width: 1750px) {
   .search-bar-container {
     padding: 5px 60px;
 
@@ -273,7 +273,7 @@
   }
 
   .serie-container {
-    max-width: 1750px;
+    max-width: 1355px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -283,7 +283,37 @@
 
   .serie {
     width: 48%;
-    max-width: 560px;
+    max-width: 655px;
+    margin: 16px 0 0 0;
+  }
+
+  .serie-btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1751px) {
+  .search-bar-container {
+    padding: 5px 70px;
+
+    form {
+      width: 60%;
+    }
+  }
+
+  .serie-container {
+    max-width: 2410px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .serie {
+    width: 48%;
+    max-width: 780px;
     margin: 16px 0 0 0;
   }
 

@@ -18,7 +18,7 @@ export class HomeComponent {
   searchForm!: FormGroup;
 
   series: any[] = [];
-  allSeries: any[] = []; // Array para armazenar todas as séries
+  allSeries: any[] = [];
   errorMessage: string = '';
 
   constructor(router: Router, service: SerieService, private fb: FormBuilder) {
@@ -32,7 +32,6 @@ export class HomeComponent {
       searchTerm: ['']
     });
 
-    // Observar mudanças no campo de busca
     this.searchForm.get('searchTerm')?.valueChanges.subscribe(value => {
       this.onSearchChange(value);
     });
@@ -64,8 +63,8 @@ export class HomeComponent {
     if (userId) {
       this.service.getSeriesByUserId(userId)
         .then((result: any) => {
-          this.allSeries = result.items; // Armazenar todas as séries
-          this.series = result.items; // Exibir todas inicialmente
+          this.allSeries = result.items;
+          this.series = result.items;
         }).catch((error: any) => {
           console.error('Error loading series:', error);
           this.errorMessage = 'Error loading series. Please try again later.';
@@ -75,15 +74,12 @@ export class HomeComponent {
     }
   }
 
-  // Método para filtrar séries baseado no termo de busca
   onSearchChange(searchTerm?: string) {
     const term = searchTerm || this.searchForm.get('searchTerm')?.value || '';
     
     if (!term.trim()) {
-      // Se não há termo de busca, mostrar todas as séries
       this.series = this.allSeries;
     } else {
-      // Filtrar séries que contenham o termo de busca no título, gênero ou sinopse
       const searchLower = term.toLowerCase();
       this.series = this.allSeries.filter(serie => 
         serie.title.toLowerCase().includes(searchLower) ||
@@ -93,13 +89,11 @@ export class HomeComponent {
     }
   }
 
-  // Método para limpar a busca
   clearSearch() {
     this.searchForm.patchValue({ searchTerm: '' });
     this.series = this.allSeries;
   }
 
-  // Getter para facilitar o acesso ao valor do campo de busca no template
   get searchTerm(): string {
     return this.searchForm.get('searchTerm')?.value || '';
   }
