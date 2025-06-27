@@ -1,0 +1,21 @@
+.invalid-input {
+    border-color: var(--danger);
+
+    &:focus {
+        border-color: var(--danger);
+    }
+}
+
+.warning {
+    color: var(--danger);
+    font-size: 16px;
+    margin: auto 15px;
+    font-weight: bold;
+    text-align: start;
+}
+
+.password-options {
+    font-size: 12px;
+    text-align: start;
+    color: var(--danger);
+}

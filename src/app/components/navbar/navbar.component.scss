@@ -1,0 +1,31 @@
+@media (min-width: 426px) and (max-width: 768px) {
+    .navbar {
+        nav {
+            width: 85%;
+        }
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .navbar {
+        nav {
+            width: 70%;
+        }
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .navbar {
+        nav {
+            width: 60%;
+        }
+    }
+}
+
+@media (min-width: 1441px) {
+    .navbar {
+        nav {
+            width: 50%;
+        }
+    }
+}

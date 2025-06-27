@@ -1,0 +1,83 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Form, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserService } from '../../../../back-end/service/UserService';
+import { Router } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+
+@Component({
+  selector: 'app-register-form',
+  imports: [ ReactiveFormsModule, NgClass, CommonModule ],
+  templateUrl: './register-form.component.html',
+  styleUrl: './register-form.component.scss',
+  providers: [UserService]
+})
+export class RegisterFormComponent {
+
+  @Output() registerSuccess = new EventEmitter<any>();
+  @Output() registerError = new EventEmitter<string>();
+
+  form: FormGroup;
+  errorMessage: string = '';
+  private fb: FormBuilder;
+  private service: UserService;
+  private router: Router;
+
+  constructor(fb: FormBuilder, service: UserService, router: Router) {
+    this.fb = fb;
+    this.service = service;
+    this.router = router;
+
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[A-Z])(?=.*\d).{8,}$/)
+      ]],
+      passwordConfirm: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(group: FormGroup) {
+    const passwordControl = group.get('password');
+    const passwordConfirmControl = group.get('passwordConfirm');
+    const password = passwordControl ? passwordControl.value : '';
+    const passwordConfirm = passwordConfirmControl ? passwordConfirmControl.value : '';
+    return password === passwordConfirm ? null : { notMatching: true };
+  }
+
+  onSubmit() {
+    if (this.form.invalid) {
+      this.errorMessage = 'Please fill out the form correctly.';
+      this.registerError.emit(this.errorMessage);
+      return;
+    }
+
+    let { email, password, passwordConfirm, name, username } = this.form.value;
+    let randomUsername = Math.floor(Math.random() * 1000000);
+    username = `@${name.toLowerCase()}${randomUsername.toString().padStart(6, '0')}`
+
+    this.service.getUserByEmail(email).then((result: any) => {
+      if (result && result.items && result.items.length > 0) {
+        this.errorMessage = 'Email already exists. Please use a different email.';
+        this.registerError.emit(this.errorMessage);
+        return;
+      }
+
+      this.service.createUser(email, password, passwordConfirm, name, username).then((user) => {
+        this.registerSuccess.emit(user);
+      }).catch((err: any) => {
+        this.errorMessage = 'An error occurred while creating the user. Please try again later.';
+        this.registerError.emit(this.errorMessage);
+        console.error(err);
+      });
+    }).catch((error: any) => {
+      this.errorMessage = 'An error occurred while checking the email. Please try again later.';
+      this.registerError.emit(this.errorMessage);
+      console.error(error);
+    });
+  }
+}

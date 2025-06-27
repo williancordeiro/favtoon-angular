@@ -1,1 +1,506 @@
-/* You can add global styles to this file, and also import other style files */
+$primary: #007AFF;
+$primary-20: #096FDF;
+$secondary: #FFFFFF;
+$background: #FFFFFF;
+
+$danger: #FF0000;
+$success: #28A745;
+$success-20: #218838;
+$cancel: '#AEAEB2';
+$cancel-20: #7D7D7D;
+
+$grey: #D1D1D6;
+$grey-20: #AEAEB2;
+$grey-40: #999999;
+
+:root {
+    --primary: #{$primary};
+    --primary-20: #{$primary-20};
+    --secondary: #{$secondary};
+    --background: #{$background};
+    
+    --danger: #{$danger};
+    --success: #{$success};
+    --success-20: #{$success-20};
+    --cancel: #{$cancel};
+    --cancel-20: #{$cancel-20};
+
+    --grey: #{$grey};
+    --grey-20: #{$grey-20};
+    --grey-40: #{$grey-40};
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    width: 100%;
+}
+
+.primary {
+    background-color: var(--primary);
+}
+
+.primary-20 {
+    background-color: var(--primary-20);
+}
+
+.secondary {
+    background-color: var(--secondary);
+}
+
+.success {
+    background-color: var(--success);
+}
+
+.danger {
+    background-color: var(--danger);
+}
+
+.cancel {
+    background-color: var(--cancel);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+
+    &.secondary {
+        color: var(--secondary);
+        background-color: transparent;
+    }
+
+    &.primary {
+        color: var(--primary);
+        background-color: transparent;
+    }
+}
+
+.container {
+    display:flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--primary);
+    padding: 2% 0;
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+        border-radius: 12px;
+        background-color: var(--primary-20);
+        padding: 2px;
+
+        button {
+            flex: 1;
+            background-color: transparent;
+            border: none;
+            color: var(--grey-20);
+            font-size: 18px;
+            font-weight: bold;
+            padding: 6px 0;
+            border-radius:12px;
+            transition: background-color 0.5s;
+            cursor: pointer;
+
+            &.active {
+                background-color: var(--primary);
+                color: var(--secondary)
+            }
+        }
+    }
+}
+
+.form-container {
+    margin-top: 5%;
+    margin-bottom: 25%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    margin-top: 15%;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-group {
+    margin: 7% auto;
+    width: 80%;
+
+    input {
+        width: 100%;
+        padding: 3% 0;
+        padding-left: 10px;
+        font-size: 30px;
+        border: 3px solid var(--primary);
+        border-radius: 9px;
+        
+        &::placeholder {
+            color: var(--grey-40);
+        }
+
+        &:focus {
+            outline: none;
+            border: 4px solid;
+            border-color: var(--primary-20);
+        }
+    }
+
+    .link {
+        display: flex;
+        justify-content: flex-end;
+        cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color: var(--grey-20)
+        }
+    }
+}
+
+.input-form {
+    width: 100%;
+    padding: 3% 0;
+    padding-left: 10px;
+    font-size: 30px;
+    border: 3px solid var(--primary);
+    border-radius: 9px;
+    
+    &::placeholder {
+        color: var(--grey-40);
+    }
+
+    &:focus {
+        outline: none;
+        border: 4px solid;
+        border-color: var(--primary-20);
+    }
+}
+
+.link {
+    a {
+        text-decoration: none;
+        color: var(--primary);
+    }
+}
+
+.btn {
+    width: 100%;
+    margin: auto 2%;
+    margin-bottom: 3%;
+    padding: 3%;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--secondary);
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.3;
+
+    &.primary {
+        &:hover {
+            background-color: var(--primary-20);
+            color: var(--secondary)
+        }
+    }
+
+    &.success {
+        &:hover {
+            background-color: var(--success-20);
+            color: var(--secondary);
+        }
+    }
+
+    &.danger {
+        &:hover {
+            background-color: var(--danger);
+            color: var(--secondary);
+        }
+    }
+
+    &.cancel {
+        &:hover {
+            background: var(--cancel-20);
+            color: var(--secondary);
+        }
+    }
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    justify-content: center;
+    //margin-top: 50%;
+}
+
+.footer-content {
+    color: var(--secondary);
+    text-align: center;
+    width: 90%;
+}
+
+.footer-main {
+    display: flex;
+    flex-direction: column;   
+    border-bottom: 1px solid var(--secondary);
+
+    .footer-section {
+        //margin: auto 4%;
+        a {
+            text-decoration: none;
+            color: var(--secondary);
+        }
+    }
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 90%;
+    max-width: 100%;
+    padding: 5%;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-back {
+    background: var(--primary);
+    color: var(--secondary);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background: var(--primary-20);
+    }
+
+    span {
+        font-size: 18px;
+    }
+}
+
+.messages {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    color: var(--danger);
+    padding: 15px;
+    border-radius: 9px;
+    border: 2px solid var(--danger);
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.success-message {
+    background: rgba(40, 167, 69, 0.1);
+    color: var(--success);
+    padding: 15px;
+    border-radius: 9px;
+    border: 2px solid var(--success);
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form-input,
+.form-textarea,
+select.form-input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 3% 0;
+    padding-left: 10px;
+    font-size: 18px;
+    border: 3px solid var(--primary);
+    border-radius: 9px;
+    transition: border-color 0.3s;
+    font-family: 'Roboto', sans-serif;
+
+    &::placeholder {
+        color: var(--grey-40);
+    }
+
+    &:focus {
+        outline: none;
+        border: 4px solid var(--primary-20);
+    }
+
+    &:disabled {
+        background-color: var(--secondary);
+        color: var(--primary);
+        cursor: default;
+        border-color: var(--primary);
+        opacity: 1;
+        -webkit-text-fill-color: var(--primary);
+    }
+
+    &.ng-invalid.ng-touched {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.error-text {
+    color: var(--danger);
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 24px;
+    color: var(--grey-40);
+    font-weight: 500;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--grey-40);
+    font-size: 18px;
+    
+    p {
+        margin: 0;
+        font-style: italic;
+    }
+}
+
+.fab-container {
+    position: absolute;
+    bottom: 5px;
+    right: 13px;
+    z-index: 20;
+}
+
+.fab-button {
+    pointer-events: auto;
+    background-color: var(--success);
+    font-size: 36px;
+    color: var(--secondary);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+    
+    &:hover {
+        background-color: var(--success-20);
+        cursor: pointer;
+    }
+}
+
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+
+    form {
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.search-bar {
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    border-bottom: 2px solid var(--grey-20);
+    padding: 5px 0;
+    padding-right: 35px;
+    background: transparent;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    &::placeholder {
+        color: var(--grey-40);
+    }
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--grey-40);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        background-color: var(--grey-20);
+        color: var(--primary);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .footer-main {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

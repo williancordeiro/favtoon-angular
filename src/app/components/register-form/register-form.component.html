@@ -1,0 +1,79 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group warning" [innerHTML]="errorMessage"></div>
+
+  <div class="form-group">
+    <input
+      formControlName="name"
+      type="text"
+      id="name"
+      placeholder="Name..."
+      [ngClass]="{ 'invalid-input': form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('name')?.invalid && (form.get('name')?.dirty || form.get('name')?.touched)" class="error-text">
+      Name is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="email"
+      type="text"
+      id="email"
+      placeholder="Email..."
+      [ngClass]="{ 'invalid-input': form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('email')?.errors?.['required'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="error-text">
+      Email is required.
+    </div>
+    <div *ngIf="form.get('email')?.errors?.['pattern'] && (form.get('email')?.dirty || form.get('email')?.touched)" class="error-text">
+      Invalid email format.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="password"
+      type="password"
+      id="password"
+      placeholder="Password..."
+      [ngClass]="{ 'invalid-input': form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched) }"
+      required
+    >
+    <div *ngIf="form.get('password')?.errors?.['required'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="error-text">
+      Password is required.
+    </div>
+    <div *ngIf="form.get('password')?.errors?.['pattern'] && (form.get('password')?.dirty || form.get('password')?.touched)" class="error-text">
+      <span>
+        <ul>
+            <li>Password must be at least 8 characters long.</li>
+            <li>Must contain at least one uppercase letter.</li>
+            <li>Must contain at least one lowercase letter.</li>
+            <li>Must contain at least one number.</li>
+        </ul>
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input
+      formControlName="passwordConfirm"
+      type="password"
+      id="confirmPass"
+      placeholder="Confirm Password..."
+      [ngClass]="{ 'invalid-input': (form.get('passwordConfirm')?.invalid && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)) || (form.errors?.['notMatching'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)) }"
+      required
+    >
+    <div *ngIf="form.get('passwordConfirm')?.errors?.['required'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)" class="error-text">
+      Confirm password is required.
+    </div>
+    <div *ngIf="form.errors?.['notMatching'] && (form.get('passwordConfirm')?.dirty || form.get('passwordConfirm')?.touched)" class="error-text">
+      Passwords do not match.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn primary" type="submit" [disabled]="form.invalid">Register</button>
+  </div>
+</form>

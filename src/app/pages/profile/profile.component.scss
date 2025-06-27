@@ -1,0 +1,329 @@
+:host {
+    .btn {
+        width: 85%;
+        font-size: 26px;
+        margin-top: 2%;
+    }
+}
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.profile-image {
+    position: relative;
+    background-color: var(--grey);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 10% auto;
+    border: 3px solid var(--primary);
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: contain;
+        image-rendering: auto;
+    }
+}
+
+.btn-container {
+    position: absolute;
+    bottom: 1px;
+    right: 40px;
+}
+
+.edit-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 2%;
+    
+}
+
+.image-btn {
+    pointer-events: auto;
+    background-color: var(--success);
+    color: var(--secondary);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--success-20);
+        color: var(--secondary);
+    }
+}
+
+.input-profile {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    border: 3px solid var(--primary);
+    border-radius: 9px;
+    margin-top: 2%;
+    margin: 1.5% auto;
+
+    &.error {
+        border-color: var(--danger);
+    }
+
+    &.success {
+        border-color: var(--success);
+    }
+
+    input {
+        border: none;
+        width: 85%;
+        font-size: 26px;
+        padding: 2% 0;
+        padding-left: 10px;
+        outline: none;
+        border-bottom-left-radius: 9px;
+        border-start-start-radius: 9px;
+        
+        &:focus {
+            outline: none;
+        }
+
+        &.error {
+            border-color: var(--danger);
+        }
+
+        &.success {
+            border-color: var(--success);
+            background-color: var(--background);
+        }
+    }
+
+    .divisor {
+        border: 2px solid var(--primary);
+
+        &.error {
+            border-color: var(--danger);
+        }
+
+        &.success {
+            border-color: var(--success);
+        }
+    }
+
+    button {
+        width: 15%;
+        border: none;
+        border-end-end-radius: 9px;
+        border-top-right-radius: 9px;
+        background-color: var(--secondary);
+        font-size: 28px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: var(--primary);
+
+        &.error {
+            color: var(--danger);
+        }
+
+        &.success {
+            color: var(--success);
+        }
+    }
+}
+
+.validation-message {
+    width: 85%;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: left;
+    padding-left: 10px;
+
+    &.error-message {
+        color: var(--danger);
+    }
+
+    &.success-message {
+        color: var(--success);
+    }
+}
+
+@media (max-width: 320px) {
+  .image-btn {
+    bottom: 11.2%;
+    right: 32.5%;
+  }   
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  .image-btn {
+    bottom: 9.2%;
+    right: 35%;
+  }   
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+
+    :host {
+        .btn {
+            width: 60%;
+            padding: 2% 0;
+            font-size: 26px;
+            margin-top: 2%;
+            margin-bottom: 0;
+        }
+    }
+
+    .image-btn {
+        top: 65%;
+        right: 43%;
+    }
+
+    .input-profile {
+        width: 60%;
+    }
+
+    .validation-message {
+        width: 60%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    :host {
+        .btn {
+            width: 45%;
+            padding: 1.3% 0;
+            font-size: 24px;
+            margin-top: 2%;
+            margin-bottom: 0;
+        }
+    }
+
+    .profile {
+        margin-bottom: 5%;
+    }
+
+    .image-btn {
+        top: 64%;
+        right: 44.4%;
+    }
+
+    .profile-image {
+        margin: 5% auto;
+    }
+
+    .input-profile {
+        width: 45%;
+
+        input {
+            width: 90%;
+            font-size: 24px;
+            padding: 1.5% 0;
+            padding-left: 10px;
+        }
+    }
+
+    .validation-message {
+        width: 45%;
+        font-size: 12px;
+    } 
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+    :host {
+        .btn {
+            width: 30%;
+            padding: 0.5% 0;
+            font-size: 21px;
+            margin-top: 1%;
+            margin-bottom: 0;
+        }
+    }
+
+    .profile {
+        margin-bottom: 3%;
+    }
+
+    .profile-image {
+        margin: 3% auto;
+    }
+
+    .image-btn {
+        top: 57.4%;
+        right: 46.1%;
+    }
+
+    .input-profile {
+        width: 30%;
+        margin-top: 0.1%;
+        margin-bottom: 1%;
+
+        input {
+            width: 110%;
+            font-size: 21px;
+            padding: 1% 0;
+            padding-left: 10px;
+        }
+    }
+
+    .validation-message {
+        width: 30%;
+        font-size: 11px;
+    } 
+}
+
+@media (min-width: 1441px) {
+    :host {
+        .btn {
+            width: 20%;
+            padding: 0.5% 0;
+            font-size: 18px;
+            margin-top: 1%;
+            margin-bottom: 0;
+        }
+    }
+
+    .profile {
+        margin-bottom: 2%;
+    }
+
+    .profile-image {
+        margin: 2% auto;
+    }
+
+    .image-btn {
+        top: 65%;
+        right: 47.1%;
+    }
+
+    .input-profile {
+        width: 20%;
+        margin-top: 0.1%;
+        margin-bottom: 1%;
+
+        input {
+            width: 120%;
+            font-size: 18px;
+            padding: 0.8% 0;
+            padding-left: 10px;
+        }
+    }
+
+    .validation-message {
+        width: 20%;
+        font-size: 10px;
+    } 
+}

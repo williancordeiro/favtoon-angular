@@ -1,0 +1,46 @@
+<div class="main">
+    <div class="search-bar-container">
+        <form [formGroup]="searchForm">
+            <input 
+                class="search-bar" 
+                type="text" 
+                placeholder="Search. . ." 
+                formControlName="searchTerm"
+            />
+            <button 
+                *ngIf="searchTerm" 
+                class="clear-search-btn" 
+                (click)="clearSearch()"
+                type="button"
+            >
+                ✕
+            </button>
+        </form>
+    </div>    
+
+    <div *ngIf="errorMessage" class="error-text">{{ errorMessage }}</div>
+    
+    <div class="serie-container">
+        <div class="serie" *ngFor="let serie of series">
+            <button class="serie-btn" (click)="handleSerie(serie)">
+                <img 
+                    *ngIf="serie.image" 
+                    [src]="service.getImageSerie(serie)" 
+                    alt="{{ serie.title }} image" 
+                    class="serie-img"
+                >
+                <span class="serie-title">{{ serie.title }}</span>
+            </button>
+        </div>
+
+        <div *ngIf="series.length === 0 && !errorMessage" class="no-results">
+            <p *ngIf="searchTerm">No series found for "{{ searchTerm }}"</p>
+            <p *ngIf="!searchTerm">No series available. Add your first series!</p>
+        </div>
+    </div>
+
+    
+    <div class="fab-container">
+        <button class="fab-button" (click)="handleAdd()">+</button>
+    </div>
+</div>
