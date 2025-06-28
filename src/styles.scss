@@ -311,28 +311,18 @@ body {
 .messages {
     width: 100%;
     margin-bottom: 20px;
-}
 
-.error-message {
-    background: rgba(255, 0, 0, 0.1);
-    color: var(--danger);
-    padding: 15px;
-    border-radius: 9px;
-    border: 2px solid var(--danger);
-    margin-bottom: 10px;
-    text-align: center;
-    font-weight: 500;
-}
+    &.success {
+        margin-bottom: 0;
+        background-color: transparent;
+        color: var(--success)
+    }
 
-.success-message {
-    background: rgba(40, 167, 69, 0.1);
-    color: var(--success);
-    padding: 15px;
-    border-radius: 9px;
-    border: 2px solid var(--success);
-    margin-bottom: 10px;
-    text-align: center;
-    font-weight: 500;
+    &.danger {
+        margin-bottom: 0;
+        background-color: transparent;
+        color: var(--danger)
+    }
 }
 
 .form-input,

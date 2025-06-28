@@ -7,8 +7,8 @@
 
   
   <div class="messages" *ngIf="errorMessage || successMessage">
-    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-    <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="messages danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="messages success" *ngIf="successMessage">{{ successMessage }}</div>
   </div>
 
   <div class="serie-form" *ngIf="serie.id">

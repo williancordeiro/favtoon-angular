@@ -45,7 +45,19 @@ export class ResetPasswordComponent implements OnInit {
     this.successMessage = '';
 
     if (this.passwordForm.invalid) {
-      this.errorMessage = 'Please fill out the form correctly.';
+      if (this.passwordForm.get('currentPassword')?.hasError('required')) {
+        this.errorMessage = 'Current password is required';
+      } else if (this.passwordForm.get('newPassword')?.hasError('required')) {
+        this.errorMessage = 'New password is required';
+      } else if (this.passwordForm.get('newPassword')?.hasError('pattern')) {
+        this.errorMessage = 'New password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number';
+      } else if (this.passwordForm.get('confirmPassword')?.hasError('required')) {
+        this.errorMessage = 'Password confirmation is required';
+      } else if (this.passwordForm.hasError('notMatching')) {
+        this.errorMessage = 'Passwords do not match';
+      } else {
+        this.errorMessage = 'Please fill out the form correctly';
+      }
       return;
     }
 
@@ -74,21 +86,31 @@ export class ResetPasswordComponent implements OnInit {
       }, 700);
       
     } catch (error: any) {
-      console.error('Error changing password:', error);
-      console.error('Error details:', error.response?.data || 'No additional details');
-      
       if (error.message === 'User not authenticated') {
-        this.errorMessage = 'User not authenticated';
+        this.errorMessage = 'User session expired. Please login again';
       } else if (error.status === 400) {
         const errorData = error.response?.data;
-        if (errorData && typeof errorData === 'object') {
-          const firstError = Object.values(errorData)[0];
-          this.errorMessage = `Validation error: ${firstError}`;
+        if (errorData) {
+          if (errorData.oldPassword) {
+            this.errorMessage = 'Current password is incorrect';
+          } else if (errorData.password) {
+            this.errorMessage = 'New password does not meet requirements';
+          } else if (errorData.passwordConfirm) {
+            this.errorMessage = 'Password confirmation does not match';
+          } else {
+            this.errorMessage = 'Invalid password information provided';
+          }
         } else {
-          this.errorMessage = 'Current password is incorrect or validation failed';
+          this.errorMessage = 'Current password is incorrect';
         }
+      } else if (error.status === 401) {
+        this.errorMessage = 'Current password is incorrect';
+      } else if (error.status === 403) {
+        this.errorMessage = 'You do not have permission to change this password';
+      } else if (error.status === 404) {
+        this.errorMessage = 'User not found';
       } else {
-        this.errorMessage = 'Error changing password. Please try again.';
+        this.errorMessage = 'An error occurred while changing password. Please try again';
       }
     } finally {
       this.isLoading = false;
