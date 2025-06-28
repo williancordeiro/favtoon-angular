@@ -4,6 +4,10 @@ Projeto com objetivo de implementar de forma progressiva uma aplicação web com
 
 Frontend desenvolvido com o Angular 19.
 
+## Site
+
+<a href="https://favtoon.com.br" target="_blank">Favtoon</a>
+
 ## Protótipo
 
 https://www.figma.com/design/TTfuNRIKXWxjTd2FUrLujs/favtoon?node-id=0-1&p=f&t=nV2EDCrBb6tm0XVr-0
