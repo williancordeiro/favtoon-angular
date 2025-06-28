@@ -3,10 +3,6 @@
     <app-login-form 
         (loginSuccess)="onLoginSuccess($event)"
         (loginError)="onLoginError($event)" />
-
-    <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-    </div>
     
     <div class="link">
         <p>Don't have an account? <a routerLink="/register">Register here</a></p>

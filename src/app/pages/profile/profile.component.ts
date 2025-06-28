@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { UserService } from '../../../../back-end/service/UserService';
 import { CommonModule, NgClass } from '@angular/common';
@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Output() userUpdated = new EventEmitter<any>();
   @Output() logoutRequested = new EventEmitter<void>();
   @Output() passwordChangeRequested = new EventEmitter<void>();
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   user: any = {};
   avatarUrl: string | undefined;
@@ -30,6 +31,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isCheckingUsername: boolean = false;
   lastCheckedUsername: string | undefined;
   router: Router;
+  isUploadingImage: boolean = false;
+  imageValidationMessage: string = '';
+  imageValidationClass: string = '';
 
   constructor(private userService: UserService, private fb: FormBuilder, router: Router) {
     this.profileForm = this.fb.group({
@@ -195,6 +199,90 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.usernameValidationClass = 'error';
     } finally {
       this.isCheckingUsername = false;
+    }
+  }
+
+  iconUpdate() {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    
+    if (!file) return;
+
+    this.imageValidationMessage = '';
+    this.imageValidationClass = '';
+
+    if (!file.type.startsWith('image/')) {
+      this.imageValidationMessage = 'Please select only image files';
+      this.imageValidationClass = 'error';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.imageValidationMessage = 'Image must be at most 5MB';
+      this.imageValidationClass = 'error';
+      return;
+    }
+
+    this.validateImageAspectRatio(file);
+  }
+
+  validateImageAspectRatio(file: File) {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      
+      if (img.width !== img.height) {
+        this.imageValidationMessage = 'Image must be square (1:1). Current dimensions: ' + img.width + 'x' + img.height;
+        this.imageValidationClass = 'error';
+        return;
+      }
+      
+      this.uploadImage(file);
+    };
+    
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      this.imageValidationMessage = 'Error loading image';
+      this.imageValidationClass = 'error';
+    };
+    
+    img.src = url;
+  }
+
+  async uploadImage(file: File) {
+    this.isUploadingImage = true;
+    this.imageValidationMessage = 'Uploading image...';
+    this.imageValidationClass = 'success';
+
+    try {
+      const updatedUser = await this.userService.updateUserIcon(this.user.id, file);
+      
+      this.user = updatedUser;
+      this.avatarUrl = this.userService.getUserIcon(updatedUser);
+      
+      this.userUpdated.emit(updatedUser);
+      
+      this.imageValidationMessage = 'Image updated successfully!';
+      this.imageValidationClass = 'success';
+      
+      setTimeout(() => {
+        this.imageValidationMessage = '';
+        this.imageValidationClass = '';
+      }, 3000);
+      
+    } catch (error: any) {
+      console.error('Error updating image:', error);
+      this.imageValidationMessage = 'Error updating image. Please try again.';
+      this.imageValidationClass = 'error';
+    } finally {
+      this.isUploadingImage = false;
+      this.fileInput.nativeElement.value = '';
     }
   }
 

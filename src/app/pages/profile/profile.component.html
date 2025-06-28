@@ -4,9 +4,24 @@
     <div class="profile-image">
         <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Avatar do usuário">
         <div class="btn-container">
-            <button class="image-btn">&#10009;</button>
+            <button class="image-btn" (click)="iconUpdate()" [disabled]="isUploadingImage">
+                {{ isUploadingImage ? '⏳' : '&#10009;' }}
+            </button>
         </div>
+        <input 
+            #fileInput 
+            type="file" 
+            accept="image/*" 
+            style="display: none" 
+            (change)="onFileSelected($event)"
+        >
     </div>   
+
+    <div *ngIf="imageValidationMessage" 
+         class="validation-message" 
+         [ngClass]="{'error-message': imageValidationClass === 'error', 'success-message': imageValidationClass === 'success'}">
+        {{ imageValidationMessage }}
+    </div>
 
     <div class="input-profile">
         <input 
