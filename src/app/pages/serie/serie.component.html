@@ -29,7 +29,8 @@
           type="file" 
           accept="image/*"
           (change)="onFileSelected($event)"
-          style="display: none;">
+          style="display: none;"
+          [disabled]="!isEditing">
       </div>
 
       

@@ -3,17 +3,15 @@
 
     <div class="form-group">
         <label for="image" id="imageLabel" class="btn primary">
-            <span *ngIf="!form.get('image')?.value">Select Image</span>
-            <span *ngIf="form.get('image')?.value">Change Image</span>
+            <span *ngIf="!imagePreview">Select Image</span>
+            <span *ngIf="imagePreview">Change Image</span>
         </label>
 
         <input 
             type="file"
             id="image"
             (change)="onFileSelected($event)"
-            [ngClass]="{ 'invalid-input': form.get('image')?.invalid && (form.get('image')?.dirty || form.get('image')?.touched) }"
             accept="image/*"
-            formControlName="image"
             aria-labelledby="imageLabel"
             hidden
         />
