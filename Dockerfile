@@ -1,5 +1,3 @@
-FROM httpd:2.4-alpine
-RUN echo "LoadModule rewrite_module modules/mod_rewrite.so" \
-    >> /usr/local/apache2/conf/httpd.conf
+FROM httpd:2.4.63-alpine3.22
 COPY dist/favtoon-angular/browser/ /usr/local/apache2/htdocs/
-COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+COPY .htaccess /usr/local/apache2/htdocs/
