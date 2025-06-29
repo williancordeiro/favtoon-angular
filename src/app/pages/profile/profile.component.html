@@ -2,10 +2,10 @@
     <h2 class="title primary">Profile</h2>
 
     <div class="profile-image">
-        <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Avatar do usuário">
+        <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Profile Image">
         <div class="btn-container">
             <button class="image-btn" (click)="iconUpdate()" [disabled]="isUploadingImage">
-                {{ isUploadingImage ? '⏳' : '&#10009;' }}
+                {{ isUploadingImage ? '&#9737;' : '&#10010;' }}
             </button>
         </div>
         <input 
